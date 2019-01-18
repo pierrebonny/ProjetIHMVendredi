@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/pierrebonny/ProjetIHMVendredi#readme",
   "dependencies": {
-    "express": "^4.16.4",
     "socket.io": "^2.2.0"
   }
 }

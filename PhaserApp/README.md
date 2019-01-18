@@ -1,2 +1,3 @@
 # Phaser App
-Launch with `npm start`
+- Install dependencies: `npm install`
+- Launch the app: `npm start`
