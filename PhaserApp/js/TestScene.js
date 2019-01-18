@@ -1,12 +1,14 @@
 class TestScene {
-    constructor() {
+    constructor(client) {
+        this.client = client;
+        this.reactFromMovement = this.reactFromMovement.bind(this);
         this.velocity = 0;
     }
 
     preload() {
-        game.load.spritesheet('map','assets/map.jpg');
-        game.load.spritesheet('car','assets/car.png');
-        game.load.spritesheet('building','assets/building.png');
+        game.load.spritesheet('map','assets/lake.png');
+        game.load.spritesheet('car','assets/canoe_blue.png');
+        //game.load.spritesheet('building','assets/building.png');
         game.load.physics("collision","assets/collision.json");
     }
 
@@ -16,7 +18,7 @@ class TestScene {
         /*Adding Map*/
         let map = game.add.sprite(0,0,'map');
         /*Adding car*/
-        this.car = game.add.sprite(570,100,'car');
+        this.car = game.add.sprite(400,400,'car');
         game.physics.p2.enable(this.car);
         this.car.body.angle = 90;
 
@@ -24,23 +26,33 @@ class TestScene {
 
         /*Create Collision Groups*/
         let carCollisionGroup = game.physics.p2.createCollisionGroup();
-        let buildingCollisionGroup = game.physics.p2.createCollisionGroup();
+        //let buildingCollisionGroup = game.physics.p2.createCollisionGroup();
         game.physics.p2.updateBoundsCollisionGroup();
 
         /*Adding Building*/
-        let building = game.add.sprite(640,420,'building');
+        /*let building = game.add.sprite(640,420,'building');
         game.physics.p2.enable(building);
         building.body.kinematic = true; //Building is static
         building.body.clearShapes(); //Remove standard Bounding Box
-        building.body.loadPolygon('collision','building'); //Load Bounding Box from Physics Editor File
+        building.body.loadPolygon('collision','building');*/ //Load Bounding Box from Physics Editor File
 
         //Set Collision Groups
         this.car.body.setCollisionGroup(carCollisionGroup);
-        building.body.setCollisionGroup(buildingCollisionGroup);
+        //building.body.setCollisionGroup(buildingCollisionGroup);
 
         //Set Collision
-        this.car.body.collides([carCollisionGroup,buildingCollisionGroup]);
-        building.body.collides([buildingCollisionGroup,carCollisionGroup]);
+        /*this.car.body.collides([carCollisionGroup,buildingCollisionGroup]);
+        building.body.collides([buildingCollisionGroup,carCollisionGroup]);*/
+
+        // Listeners
+        this.client.listenMovement(this.reactFromMovement);
+    }
+
+    reactFromMovement(mov) {
+        this.velocity += mov.speed;
+        this.car.body.angularVelocity += mov.rotation;
+        this.car.body.angularVelocity += (mov.rotation > 0) ? + mov.speed/100 : - mov.speed/100;
+        console.log("VELOCITY", this.velocity, "ANGULAR_VELOCITY", this.car.body.angularVelocity);
     }
 
     update() {
@@ -63,11 +75,14 @@ class TestScene {
         this.car.body.velocity.y = this.velocity * Math.sin((this.car.angle-90)*0.01745);
 
         /*Rotation of Car*/
-        if (this.cursors.left.isDown)
+        /*if (this.cursors.left.isDown) {
             this.car.body.angularVelocity = -10*(this.velocity/1000);
-        else if (this.cursors.right.isDown)
+        }
+        else if (this.cursors.right.isDown) {
             this.car.body.angularVelocity = 10*(this.velocity/1000);
-        else
-            this.car.body.angularVelocity = 0;
+        }
+        else {
+            //this.car.body.angularVelocity = 0;
+        }*/
     }
 }

@@ -35,7 +35,7 @@ class GameScene {
     }
 
     getCoordinates(layer, pointer) {
-        console.log("[GAME] send coords", pointer.worldX, pointer.worldY);
+        console.log("[GAME] coords", pointer.worldX, pointer.worldY);
     }
 
     addNewPlayer(id, x, y) {

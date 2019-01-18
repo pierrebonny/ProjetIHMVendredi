@@ -10,7 +10,7 @@ class Client {
 
     connectToServer(address) {
         this.socket = io.connect(address, {transports: ['websocket'], rejectUnauthorized: false});
-        console.log("emit CONNECTION")
+        console.log("emit CONNECTION");
         this.socket.emit("CONNECTION", {device: "Phaser"});
         this.getConnectionState();
     }
@@ -24,10 +24,17 @@ class Client {
         });
     }
 
-    listenTeam(callback) {
+    listenAddTeam(callback) {
         this.socket.on("ADD_TEAM", (data) => {
             console.log("ADD_TEAM", data);
-            callback(data.color);
+            callback("Ajout : " + data.color);
+        });
+    }
+
+    listenRemoveTeam(callback) {
+        this.socket.on("REMOVE_TEAM", (data) => {
+            console.log("REMOVE_TEAM", data);
+            callback("Suppression : " + data.color);
         });
     }
 
@@ -40,9 +47,9 @@ class Client {
 
     listenMovement(callback) {
         this.socket.on("MOVE", (data) => {
-            console.log(data);
+            console.log("MOVE", data);
+            callback(data);
         });
-        callback(data);
     }
 
     sendFinished(color) {
