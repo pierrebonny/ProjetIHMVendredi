@@ -1,0 +1,24 @@
+{
+  "name": "projetihmvendredi",
+  "version": "1.0.0",
+  "description": "server_side",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"start": "node index.js"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pierrebonny/ProjetIHMVendredi.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pierrebonny/ProjetIHMVendredi/issues"
+  },
+  "homepage": "https://github.com/pierrebonny/ProjetIHMVendredi#readme",
+  "dependencies": {
+    "socket.io": "^2.2.0"
+  }
+}
