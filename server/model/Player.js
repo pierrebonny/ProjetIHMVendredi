@@ -9,6 +9,10 @@ class Player {
         return this.teamColor;
     }
 
+    getSocket() {
+        return this.socket;
+    }
+
 }
 
 module.exports = Player;

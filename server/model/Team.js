@@ -3,6 +3,7 @@ class Team {
     constructor(color) {
         this.color = color;
         this.playersNumber = 0;
+        this.players = [];
     }
 
     getColor(){
@@ -10,12 +11,15 @@ class Team {
     }
 
     addPlayer(player){
-        this.player1 ? this.player2 = player : this.player1 = player;
-        this.playersNumber++;
+        this.players.push(player);
     }
 
     getPlayersNumber(){
-        return this.playersNumber;
+        return this.players.length;
+    }
+
+    getPlayers() {
+        return this.players;
     }
 }
 module.exports = Team;

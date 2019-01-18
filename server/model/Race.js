@@ -5,13 +5,16 @@ const Team = require("./Team");
 const Display = require("./Display");
 const Mobile = require("../communication/Mobile");
 const Phaser = require("../communication/Phaser");
+const Tablet = require("../communication/Tablet");
 
 
 class Race {
     constructor(){
         this.teams = [];
-        this.players = {};
+        this.players = new Map();
         this.server = this.initiateServer();
+        this.tablet = new Tablet();
+        this.tablet.initiateCRUDServer();
         this.io = require('socket.io').listen(this.server);
         this.listenToClients();
     }
@@ -33,6 +36,7 @@ class Race {
         console.log("listening...");
         // Quand un client se connecte, on le note dans la console
         this.io.sockets.on('connection', (client) => {
+            console.log("connect");
             client.on('CONNECTION', (data)=>{
                 if(data.device === "Phaser") {
                     try {
@@ -48,14 +52,15 @@ class Race {
                 }
                 else if(data.device === "Mobile") {
                     try {
-                        let mobile = new Mobile(this);
-                        mobile.setListeners(client);
-                        let player = new Player(data.color,);
+                        let mobile = new Mobile(this, client);
+                        mobile.setListeners();
+                        let player = new Player(data.color, client);
                         this.players.set(client.id, player);
                         console.log('Un joueur mobile est connecté !');
                         client.emit("CONNECTION_STATE", {status: 1});
                     }
                     catch (e) {
+                        console.log(e);
                         client.emit("CONNECTION_STATE", {status: 0});
                     }
                 }
@@ -67,14 +72,18 @@ class Race {
     }
 
     getOrCreateTeam(color){
-        for(let team of teams) {
+        for(let team of this.teams) {
             if(team.getColor() === color) {
                 return team;
             }
         }
         let team = new Team(color);
-        teams.push(team);
+        this.teams.push(team);
         return team;
+    }
+
+    getDisplay(){
+        return this.display;
     }
 }
 module.exports = Race;

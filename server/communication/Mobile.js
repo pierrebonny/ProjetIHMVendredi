@@ -1,30 +1,36 @@
 class Mobile {
-    constructor(race){
+    constructor(race, mobileClient){
         this.race = race;
+        this.mobileClient = mobileClient;
     }
 
-    setListeners (mobileClient){
-        mobileClient.on("ADD_PLAYER", this.onAddPlayer(mobileClient));
+    setListeners (){
+        this.mobileClient.on("ADD_PLAYER", () => this.onAddPlayer());
+        this.mobileClient.on("MOVE", (data) => this.onMove(data));
     }
 
-    onAddPlayer(mobileClient){
+    onAddPlayer(data){
         console.log("ADD_PLAYER");
         try {
-            let player = this.race.players.get(mobileClient.id);
+            let player = this.race.players.get(this.mobileClient.id);
             let team = this.race.getOrCreateTeam(player.getTeamColor());
             team.addPlayer(player);
-            mobileClient.emit("PLAYER_ADDED", {status: 1});
+            this.mobileClient.emit("PLAYER_ADDED", {status: 1});
             console.log("emit player added");
             if(team.getPlayersNumber() === 2){
-                mobileClient.emit("TEAM_READY");
-                team.player1.socket.emit("TEAM_READY");
-                this.race.display.getSocket().emit("ADD_TEAM", {color: team.getColor()});
-                mobileClient.broadcast.emit("START");
+                this.mobileClient.emit("TEAM_READY");
+                team.getPlayers()[0].getSocket().emit("TEAM_READY");
+                this.race.getDisplay().getSocket().emit("ADD_TEAM", {color: team.getColor()});
+                //this.mobileClient.broadcast.emit("START");
             }
         } catch (e) {
             console.log(e);
-            mobileClient.emit("PLAYER_ADDED", {status: 0});
+            this.mobileClient.emit("PLAYER_ADDED", {status: 0});
         }
+    }
+
+    onMove(mobileClient) {
+
     }
 
 }
