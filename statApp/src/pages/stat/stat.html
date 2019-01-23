@@ -1,0 +1,140 @@
+<!--
+
+
+<ion-content>
+
+
+    <ion-card>
+        <ion-card-header>
+            Bar Chart
+        </ion-card-header>
+        <ion-card-content>
+            <canvas #barCanvas></canvas>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            Doughnut Chart
+        </ion-card-header>
+        <ion-card-content>
+            <canvas #doughnutCanvas></canvas>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            Line Chart
+        </ion-card-header>
+        <ion-card-content>
+            <canvas #lineCanvas></canvas>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>-->
+<ion-header>
+    <ion-navbar no-border-bottom>
+        <ion-title>
+            Statistiques de la partie :
+        </ion-title>
+    </ion-navbar>
+
+    <ion-toolbar no-border-top>
+        <ion-segment [(ngModel)]="player">
+            <ion-segment-button value="p1">
+                Joueur 1
+            </ion-segment-button>
+            <ion-segment-button value="p2">
+                Joueur 2
+            </ion-segment-button>
+            <ion-segment-button value="p3">
+                Joueur 3
+            </ion-segment-button>
+            <ion-segment-button value="p4">
+                Joueur 4
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <div [ngSwitch]="player">
+        <div class="row" *ngSwitchCase="'p1'">
+            <div class="col" style="text-align: center; max-width: 50%">
+                <ion-card>
+                    <ion-card-header>
+                        Doughnut Chart
+                    </ion-card-header>
+                    <ion-card-content>
+                        <canvas #doughnutCanvas></canvas>
+                    </ion-card-content>
+                </ion-card>
+            </div>
+            <div class="col"  style="text-align: center; max-width: 50%">
+                <ion-card>
+                    <ion-card-header>
+                        Line Chart
+                    </ion-card-header>
+                    <ion-card-content>
+                        <canvas #lineCanvas></canvas>
+                    </ion-card-content>
+                </ion-card>
+            </div>
+        </div>
+
+        <div class="row" *ngSwitchCase="'p2'">
+            <div class="col" style="text-align: center; max-width: 50%">
+                <ion-card>
+                    <ion-card-header>
+                        Doughnut Chart2
+                    </ion-card-header>
+                    <ion-card-content>
+                        <canvas #doughnutCanvas></canvas>
+                    </ion-card-content>
+                </ion-card>
+            </div>
+            <div class="col"  style="text-align: center; max-width: 50%">
+                <ion-card>
+                    <ion-card-header>
+                        Line Chart2
+                    </ion-card-header>
+                    <ion-card-content>
+                        <canvas #lineCanvas></canvas>
+                    </ion-card-content>
+                </ion-card>
+            </div>
+        </div>
+
+        <ion-list *ngSwitchCase="'p3'">
+            <ion-item>
+                <h2>Daffy</h2>
+            </ion-item>
+            <ion-item>
+                <h2>Huey</h2>
+            </ion-item>
+            <ion-item>
+                <h2>Dewey</h2>
+            </ion-item>
+            <ion-item>
+                <h2>Louie</h2>
+            </ion-item>
+        </ion-list>
+        <ion-list *ngSwitchCase="'p4'">
+            <ion-item>
+                <h2>Ruby</h2>
+            </ion-item>
+            <ion-item>
+                <h2>Oscar</h2>
+            </ion-item>
+            <ion-item>
+                <h2>Zoey</h2>
+            </ion-item>
+            <ion-item>
+                <h2>Otto</h2>
+            </ion-item>
+        </ion-list>
+    </div>
+
+
+</ion-content>
