@@ -71,10 +71,10 @@ public class LoginActivity extends Activity {
             object.put("device", "Mobile");
             object.put("color", colorpicker);
             //object.put("current", new Double(152.32));
+            Constants.color = colorpicker;
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         mSocket.emit("CONNECTION", object);
     }
 
