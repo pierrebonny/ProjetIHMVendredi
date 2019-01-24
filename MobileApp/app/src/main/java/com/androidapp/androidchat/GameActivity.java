@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +16,8 @@ import java.util.Date;
 import io.socket.client.Socket;
 
 public class GameActivity extends Activity implements SensorEventListener {
+
+    TextView timer;
 
     private Socket mSocket;
     long startTime;
@@ -37,7 +40,10 @@ public class GameActivity extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_game);
         sManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         ChatApplication app = (ChatApplication) getApplication();
+        timer = (TextView) findViewById(R.id.timer);
+        timer.setRotation(-90);
         mSocket = app.getSocket();
+        timer.setText("waiting");
     }
 
     //when this Activity starts
@@ -109,10 +115,13 @@ public class GameActivity extends Activity implements SensorEventListener {
                 leftOrRight = isLeftOrRightValue;
             } else if (!checkTime && isLeftOrRightValue == 0) {
                 checkTime = true;
+                timer.setText("waiting!");
                 leftOrRight = 0;
             } else if (!checkTime) {
+                timer.setText("" + (1500 - ((new Date()).getTime() - startTime)));
                 if (((new Date()).getTime() - startTime) > 1500) {
                     sendMove(isTouched(isLeftOrRightValue));
+                    timer.setText("waiting!");
                     checkTime = true;
                     leftOrRight = 0;
                 }
