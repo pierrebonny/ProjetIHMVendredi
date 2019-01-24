@@ -27,14 +27,14 @@ class Client {
     listenAddTeam(callback) {
         this.socket.on("ADD_TEAM", (data) => {
             console.log("ADD_TEAM", data);
-            callback("Ajout : " + data.color);
+            callback(data.color);
         });
     }
 
     listenRemoveTeam(callback) {
         this.socket.on("REMOVE_TEAM", (data) => {
             console.log("REMOVE_TEAM", data);
-            callback("Suppression : " + data.color);
+            callback(data.color);
         });
     }
 
