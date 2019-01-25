@@ -65,11 +65,11 @@ public class GameActivity extends Activity implements SensorEventListener {
     private void sendMove(boolean isTouched) {
         JSONObject object = new JSONObject();
         try {
-            object.put("rotation", (leftOrRight==1) ? 0.01 : -0.01);
-            object.put("speed", 42);
+            object.put("rotation", (leftOrRight==1) ? 0.0001 : -0.0001);
+            object.put("speed", 420);
             object.put("color", Constants.color);
             object.put("touch", isTouched);
-            object.put("pitch", pitch);
+            object.put("pitch", pitch+90);
         } catch (JSONException e) {
             e.printStackTrace();
         }
