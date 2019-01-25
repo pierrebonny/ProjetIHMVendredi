@@ -1,5 +1,4 @@
 const ADDRESS = "10.212.111.96:8080";
-//const ADDRESS = "192.168.182.215:8080";
 
 /**
  * Client used to communicate with the server

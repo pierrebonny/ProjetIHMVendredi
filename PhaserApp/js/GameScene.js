@@ -5,7 +5,7 @@ class GameScene {
     constructor(client) {
         this.client = client;
         this.reactFromMovement = this.reactFromMovement.bind(this);
-        this.velocity = 0;
+        this.boats = {};
     }
 
     preload() {
@@ -59,56 +59,28 @@ class GameScene {
         }
 
         // Boat
-        this.car = game.add.sprite(400,400,'boat');
-        game.physics.p2.enable(this.car);
-        this.car.body.angle = 90;
-
-        this.cursors = game.input.keyboard.createCursorKeys();
-
-        //Set Collision Groups
-        this.car.body.setCollisionGroup(boatsCollisionGroup);
-        this.car.body.collides([boatsCollisionGroup,separatorsCollisionGroup]);
+        let boat;
+        this.colors = ["blue", "yellow"];
+        for (let i = 1; i <= 2; i++) {
+            boat = new Boat(200, 400*i);
+            boat.getBoat().body.setCollisionGroup(boatsCollisionGroup);
+            boat.getBoat().body.collides([boatsCollisionGroup, separatorsCollisionGroup]);
+            this.boats[this.colors[i-1]] = boat;
+        }
 
         // Listeners
         this.client.listenMovement(this.reactFromMovement);
+        this.cursors = game.input.keyboard.createCursorKeys();
     }
 
     reactFromMovement(mov) {
-        this.velocity += mov.speed;
-        this.car.body.angularVelocity += mov.rotation;
-        this.car.body.angularVelocity += (mov.rotation > 0) ? + mov.speed/100 : - mov.speed/100;
-        console.log("VELOCITY", this.velocity, "ANGULAR_VELOCITY", this.car.body.angularVelocity);
+        this.boats[mov.color].reactFromMovement(mov)
     }
 
     update() {
-        // Update velocity
-        if (this.cursors.up.isDown && this.velocity <= 400) {
-            this.velocity += 7;
+        for (let color of this.colors) {
+            this.boats[color].update(this.cursors);
         }
-        else if (this.cursors.down.isDown && this.velocity >= -400) {
-            this.velocity -= 7;
-        }
-        else {
-            if (this.velocity >= 7)
-                this.velocity -= 7;
-            if (this.velocity <= -7)
-                this.velocity += 7;
-        }
-
-        // Set X and Y speed of velocity
-        this.car.body.velocity.x = this.velocity * Math.cos((this.car.angle-90)*0.01745);
-        this.car.body.velocity.y = this.velocity * Math.sin((this.car.angle-90)*0.01745);
-
-        // Rotation of boat
-        /*if (this.cursors.left.isDown) {
-            this.car.body.angularVelocity = -10*(this.velocity/1000);
-        }
-        else if (this.cursors.right.isDown) {
-            this.car.body.angularVelocity = 10*(this.velocity/1000);
-        }
-        else {
-            this.car.body.angularVelocity = 0;
-        }*/
     }
 
     fullscreen() {
