@@ -1,14 +1,20 @@
-class Mobile {
-    constructor(race, mobileClient){
+class Stats {
+    constructor(race, statsClient){
         this.race = race;
-        this.mobileClient = mobileClient;
+        this._statsClient = statsClient;
     }
 
     setListeners (){
-        this.mobileClient.on("ADD_PLAYER", () => this.onAddPlayer());
-        this.mobileClient.on("MOVE", (data) => this.onMove(data));
+        //this.mobileClient.on("ADD_PLAYER", () => this.onAddPlayer());
+        //this.mobileClient.on("MOVE", (data) => this.onMove(data));
     }
 
+
+    getStatsClient() {
+        return this._statsClient;
+    }
+
+    /*
     onAddPlayer(data){
         console.log("ADD_PLAYER");
         try {
@@ -21,7 +27,6 @@ class Mobile {
                 this.mobileClient.emit("TEAM_READY");
                 team.getPlayers()[0].getSocket().emit("TEAM_READY");
                 this.race.getDisplay().getSocket().emit("ADD_TEAM", {color: team.getColor()});
-                this.race.getStatsSocket().emit("ADD_TEAM", {color: team.getColor()});
                 this.mobileClient.broadcast.emit("START");
             }
         } catch (e) {
@@ -31,9 +36,8 @@ class Mobile {
     }
 
     onMove(data) {
-        this.race.getDisplay().getSocket().emit("MOVE",data);
-        this.race.getStatsSocket().emit("MOVE", data);
+        this.race.getDisplay().getSocket().emit("MOVE",data)
     }
-
+*/
 }
-module.exports = Mobile;
+module.exports = Stats;
