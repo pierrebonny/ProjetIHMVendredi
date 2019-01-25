@@ -6,7 +6,7 @@ const Display = require("./Display");
 const Mobile = require("../communication/Mobile");
 const Phaser = require("../communication/Phaser");
 const Tablet = require("../communication/Tablet");
-
+const Stats = require("../communication/Stats");
 
 class Race {
     constructor(){
@@ -14,6 +14,7 @@ class Race {
         this.players = new Map();
         this.server = this.initiateServer();
         this.tablet = new Tablet();
+        this.stats = new Stats();
         this.io = require('socket.io').listen(this.server);
         this.listenToClients();
     }
@@ -62,7 +63,19 @@ class Race {
                         console.log(e);
                         client.emit("CONNECTION_STATE", {status: 0});
                     }
+                }else if(data.device === "Stats") {
+                    try {
+                        this.stats = new Stats(this, client);
+                        this.stats.setListeners();
+                        client.emit("CONNECTION_STATE", {status: 1});
+                        console.log("stats connectés");
+                    }
+                    catch (e) {
+                        console.log(e);
+                        client.emit("CONNECTION_STATE", {status: 0});
+                    }
                 }
+
                 else {
                     client.emit("CONNECTION_STATE", {status: 0});
                 }
@@ -83,6 +96,10 @@ class Race {
 
     getDisplay(){
         return this.display;
+    }
+
+    getStatsSocket(){
+        return this.stats.getStatsClient();
     }
 
     launchStartChrono() {
