@@ -351,6 +351,7 @@ public class MainFragment extends Fragment {
                     Log.d("START", "START");
                 }
             });
+            Constants.start=true;
         }
     };
 

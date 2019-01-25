@@ -41,7 +41,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         sManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         ChatApplication app = (ChatApplication) getApplication();
         timer = (TextView) findViewById(R.id.timer);
-        timer.setRotation(-90);
+        //timer.setRotation(-90);
         mSocket = app.getSocket();
         timer.setText("waiting");
     }
@@ -65,11 +65,11 @@ public class GameActivity extends Activity implements SensorEventListener {
     private void sendMove(boolean isTouched) {
         JSONObject object = new JSONObject();
         try {
-            object.put("direction", (leftOrRight==1) ? 300 : 60);
+            object.put("rotation", (leftOrRight==1) ? 0.01 : -0.01);
             object.put("speed", 42);
             object.put("color", Constants.color);
             object.put("touch", isTouched);
-            object.put("roll", pitch);
+            object.put("pitch", pitch);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -108,22 +108,25 @@ public class GameActivity extends Activity implements SensorEventListener {
             mags = null; //retrigger the loop when things are repopulated
             accels = null; ////retrigger the loop when things are repopulated
 
-            int isLeftOrRightValue = isLeftOrRight(roll);
-            if (checkTime && isLeftOrRightValue != 0) {
-                startTime = System.currentTimeMillis();
-                checkTime = false;
-                leftOrRight = isLeftOrRightValue;
-            } else if (!checkTime && isLeftOrRightValue == 0) {
-                checkTime = true;
-                timer.setText("waiting!");
-                leftOrRight = 0;
-            } else if (!checkTime) {
-                timer.setText("" + (1500 - ((new Date()).getTime() - startTime)));
-                if (((new Date()).getTime() - startTime) > 1500) {
-                    sendMove(isTouched(isLeftOrRightValue));
-                    timer.setText("waiting!");
+            if(Constants.start) {
+                timer.setText("START");
+                int isLeftOrRightValue = isLeftOrRight(roll);
+                if (checkTime && isLeftOrRightValue != 0) {
+                    startTime = System.currentTimeMillis();
+                    checkTime = false;
+                    leftOrRight = isLeftOrRightValue;
+                } else if (!checkTime && isLeftOrRightValue == 0) {
                     checkTime = true;
+                    timer.setText("waiting!");
                     leftOrRight = 0;
+                } else if (!checkTime) {
+                    timer.setText("" + (1500 - ((new Date()).getTime() - startTime)));
+                    if (((new Date()).getTime() - startTime) > 1500) {
+                        sendMove(isTouched(isLeftOrRightValue));
+                        timer.setText("waiting!");
+                        checkTime = true;
+                        leftOrRight = 0;
+                    }
                 }
             }
         }
