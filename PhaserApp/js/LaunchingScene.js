@@ -7,6 +7,7 @@ class LaunchingScene {
         this.startGame = startGame;
         this.addTeam = this.addTeam.bind(this);
         this.removeTeam = this.removeTeam.bind(this);
+        this.logoDisplayed = true;
     }
 
     init() {
@@ -15,6 +16,7 @@ class LaunchingScene {
 
     preload() {
         game.load.image('background','assets/kayak_background.png');
+        game.load.image('logo', 'assets/kayakRacerLogo.png');
         game.load.image('sprite','assets/sprites/sprite.png');
         game.load.image('team_blue', 'assets/team_blue.png');
         game.load.image('team_green', 'assets/team_green.png');
@@ -25,6 +27,9 @@ class LaunchingScene {
     create() {
         // Background
         game.add.sprite(0,0,'background');
+        this.logo = game.add.sprite(1500,250, 'logo');
+        this.logo.anchor.setTo(0.5, 0.5);
+        game.time.events.loop(Phaser.Timer.SECOND * 1.5, ()=>this.updateLogo(), this);
 
         // Fullscreen
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -102,6 +107,20 @@ class LaunchingScene {
             this.clock.arc(0, 0, 100, game.math['degToRad'](-89.999), game.math['degToRad'](-89.999 + angle), false);
             this.timeTxt.text = ('00'+(15-seconds)).slice(-2);
         }
+    }
+
+    updateLogo(){
+        if(this.logoDisplayed){
+            let s = game.add.tween(this.logo.scale);
+            s.to({x: 0.7, y:0.7}, 1800, Phaser.Easing.Linear.None);
+            s.start();
+        }
+        else {
+            let s = game.add.tween(this.logo.scale);
+            s.to({x: 1, y: 1}, 1800, Phaser.Easing.Linear.None);
+            s.start();
+        }
+        this.logoDisplayed = !this.logoDisplayed;
     }
 
     addTeam(color) {

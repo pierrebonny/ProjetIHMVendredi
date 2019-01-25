@@ -5,7 +5,6 @@ const Team = require("./Team");
 const Display = require("./Display");
 const Mobile = require("../communication/Mobile");
 const Phaser = require("../communication/Phaser");
-const Tablet = require("../communication/Tablet");
 const Stats = require("../communication/Stats");
 
 class Race {
@@ -13,7 +12,6 @@ class Race {
         this.teams = [];
         this.players = new Map();
         this.server = this.initiateServer();
-        this.tablet = new Tablet();
         this.stats = new Stats();
         this.io = require('socket.io').listen(this.server);
         this.listenToClients();
@@ -37,7 +35,7 @@ class Race {
         // Quand un client se connecte, on le note dans la console
         this.io.sockets.on('connection', (client) => {
             console.log("connect");
-            client.on('CONNECTION', (data)=>{
+            client.on('CONNECTION', (data)=> {
                 if(data.device === "Phaser") {
                     try {
                         let phaser = new Phaser(this);
@@ -103,7 +101,7 @@ class Race {
     }
 
     launchStartChrono() {
-        this.timerId = setInterval(function (){clearInterval(this.timerId); this.display.getSocket().emit("START")}.bind(this),15000)
+        this.timerId = setInterval(function (){clearInterval(this.timerId); this.io.sockets.emit("START"); console.log("start")}.bind(this),15000)
     }
 
     getTimerId() {

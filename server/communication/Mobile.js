@@ -21,10 +21,9 @@ class Mobile {
                 this.mobileClient.emit("TEAM_READY");
                 team.getPlayers()[0].getSocket().emit("TEAM_READY");
                 this.race.getDisplay().getSocket().emit("ADD_TEAM", {color: team.getColor()});
+                this.race.getStatsSocket().emit("ADD_TEAM", {color: team.getColor()});
                 clearInterval(this.race.getTimerId());
                 this.race.launchStartChrono();
-                this.race.getStatsSocket().emit("ADD_TEAM", {color: team.getColor()});
-                this.mobileClient.broadcast.emit("START");
             }
         } catch (e) {
             console.log(e);
