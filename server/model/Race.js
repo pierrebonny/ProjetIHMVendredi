@@ -15,7 +15,6 @@ class Race {
         this.server = this.initiateServer();
         this.tablet = new Tablet();
         this.stats = new Stats();
-        //this.tablet.initiateCRUDServer();
         this.io = require('socket.io').listen(this.server);
         this.listenToClients();
     }
@@ -101,6 +100,18 @@ class Race {
 
     getStatsSocket(){
         return this.stats.getStatsClient();
+    }
+
+    launchStartChrono() {
+        this.timerId = setInterval(function (){clearInterval(this.timerId); this.display.getSocket().emit("START")}.bind(this),15000)
+    }
+
+    getTimerId() {
+        return this.timerId;
+    }
+
+    setTimerId(newTimerId){
+        this.timerId = newTimerId;
     }
 }
 module.exports = Race;

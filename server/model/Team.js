@@ -2,7 +2,6 @@ class Team {
 
     constructor(color) {
         this.color = color;
-        this.playersNumber = 0;
         this.players = [];
     }
 
