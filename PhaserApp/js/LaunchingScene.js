@@ -23,7 +23,13 @@ class LaunchingScene {
     }
 
     create() {
+        // Background
         game.add.sprite(0,0,'background');
+
+        // Fullscreen
+        game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.input.onDown.add(this.fullscreen, this);
 
         // Boats
         const teamColors = ["blue", "green", "red", "yellow"];
@@ -72,6 +78,13 @@ class LaunchingScene {
             let angle = (ratio * 360);
             if (angle === 0) angle = 1;
 
+            // stop timer
+            if (seconds < 0) {
+                console.log("Timer stopped");
+                this.cutTimer();
+                return;
+            }
+
             // fudge it so the circle completes
             angle = angle - 0.0001;
 
@@ -116,5 +129,13 @@ class LaunchingScene {
         this.startTime = undefined;
         this.timeTxt.visible = false;
         this.secondsTxt.visible = false;
+    }
+
+    fullscreen() {
+        if (game.scale.isFullScreen) {
+            game.scale.stopFullScreen();
+        } else {
+            game.scale.startFullScreen(false);
+        }
     }
 }
