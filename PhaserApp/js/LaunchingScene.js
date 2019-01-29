@@ -2,9 +2,10 @@
  * Scene before launching the game
  */
 class LaunchingScene {
-    constructor(client, startGame) {
+    constructor(client, race, startGame) {
         this.client = client;
         this.startGame = startGame;
+        this.race = race;
         this.addTeam = this.addTeam.bind(this);
         this.removeTeam = this.removeTeam.bind(this);
         this.logoDisplayed = true;
@@ -17,7 +18,6 @@ class LaunchingScene {
     preload() {
         game.load.image('background','assets/kayak_background.png');
         game.load.image('logo', 'assets/kayakRacerLogo.png');
-        game.load.image('sprite','assets/sprites/sprite.png');
         game.load.image('team_blue', 'assets/team_blue.png');
         game.load.image('team_green', 'assets/team_green.png');
         game.load.image('team_red', 'assets/team_red.png');
@@ -126,6 +126,7 @@ class LaunchingScene {
     addTeam(color) {
         this.teamImages[color].visible = true;
         this.teamTexts[color].visible = true;
+        this.race.addTeam(color);
 
         this.launchTimer();
     }
@@ -133,6 +134,7 @@ class LaunchingScene {
     removeTeam(color) {
         this.teamImages[color].visible = false;
         this.teamTexts[color].visible = false;
+        this.race.removeTeam(color);
 
         this.cutTimer();
     }

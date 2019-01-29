@@ -2,15 +2,19 @@
  * Scene containing the game and the boats
  */
 class GameScene {
-    constructor(client) {
+    constructor(client, race) {
         this.client = client;
+        this.race = race;
         this.reactFromMovement = this.reactFromMovement.bind(this);
         this.boats = {};
     }
 
     preload() {
         game.load.spritesheet('background','assets/lake.png');
-        game.load.spritesheet('boat','assets/canoe_blue.png');
+        game.load.spritesheet('boat_blue','assets/canoe_blue.png');
+        game.load.spritesheet('boat_green','assets/canoe_green.png');
+        game.load.spritesheet('boat_red','assets/canoe_red.png');
+        game.load.spritesheet('boat_yellow','assets/canoe_yellow.png');
         game.load.image('buoy', 'assets/buoy.png');
         game.load.image('strip', 'assets/white.png');
         game.load.image('separator', 'assets/separator.png');
@@ -58,14 +62,15 @@ class GameScene {
             sep.body.collides([separatorsCollisionGroup, boatsCollisionGroup]);
         }
 
-        // Boat
+        // Boats
         let boat;
-        this.colors = ["blue", "yellow"];
-        for (let i = 1; i <= 2; i++) {
-            boat = new Boat(200, 400*i);
+        let color;
+        for (let i = 1; i <= this.race.nbPlayers(); i++) {
+            color = this.race.getColors()[i-1];
+            boat = new Boat(200, 400*i, color);
             boat.getBoat().body.setCollisionGroup(boatsCollisionGroup);
             boat.getBoat().body.collides([boatsCollisionGroup, separatorsCollisionGroup]);
-            this.boats[this.colors[i-1]] = boat;
+            this.boats[color] = boat;
         }
 
         // Listeners
@@ -78,7 +83,7 @@ class GameScene {
     }
 
     update() {
-        for (let color of this.colors) {
+        for (let color of this.race.getColors()) {
             this.boats[color].update(this.cursors);
         }
     }

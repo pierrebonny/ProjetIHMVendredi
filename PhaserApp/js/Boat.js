@@ -1,6 +1,6 @@
 class Boat {
-    constructor(x, y) {
-        this.boat = game.add.sprite(x, y,'boat');
+    constructor(x, y, color) {
+        this.boat = game.add.sprite(x, y,'boat_'+color);
         game.physics.p2.enable(this.boat);
         this.boat.body.angle = 90;
 
