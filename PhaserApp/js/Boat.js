@@ -2,9 +2,11 @@ class Boat {
     constructor(x, y, color) {
         this.boat = game.add.sprite(x, y,'boat_'+color);
         game.physics.p2.enable(this.boat);
-        this.boat.body.angle = 90;
 
+        this.boat.body.angle = 90;
         this.velocity = 0;
+
+        this.positions = [];
     }
 
     update(cursors) {
@@ -36,6 +38,9 @@ class Boat {
         else {
             this.boat.body.angularVelocity = 0;
         }
+
+        // Save position
+        this.savePosition();
     }
 
     reactFromMovement(mov) {
@@ -47,5 +52,12 @@ class Boat {
 
     getBoat() {
         return this.boat;
+    }
+
+    savePosition() {
+        const time = Date.now();
+        if (this.positions.length === 0 || time - this.positions[this.positions.length-1].time > 1000) {
+            this.positions[this.positions.length] = {time: time, x: this.boat.x, y: this.boat.y};
+        }
     }
 }

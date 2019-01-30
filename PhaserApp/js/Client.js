@@ -1,5 +1,4 @@
-//const ADDRESS = "10.212.111.96:8080";
-const ADDRESS = "192.168.1.10:8080";
+const ADDRESS = "10.212.111.96:8080";
 
 /**
  * Client used to communicate with the server
@@ -53,8 +52,8 @@ class Client {
         });
     }
 
-    sendFinished(color) {
-        console.log("send FINISH", {color: color});
-        this.socket.emit("FINISH", {color: color});
+    sendFinished(color, boatPositions) {
+        console.log("send FINISH", {color: color, positions: boatPositions});
+        this.socket.emit("FINISH", {color: color, positions: boatPositions});
     }
 }
