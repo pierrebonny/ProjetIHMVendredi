@@ -1,8 +1,6 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {HistoryPage} from "../history/history";
-import {TabsPage} from "../tabs/tabs";
-import {TabsTeam2Page} from "../tabs-team2/tabs-team2";
 import {Socket} from "ng-socket-io";
 import {Player11Page} from "../players/player11/player11";
 import {Player21Page} from "../players/player21/player21";
