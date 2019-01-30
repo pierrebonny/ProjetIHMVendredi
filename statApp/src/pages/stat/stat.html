@@ -1,0 +1,102 @@
+<ion-header>
+    <ion-navbar no-border-bottom>
+        <ion-title>
+            Statistiques de la partie :
+        </ion-title>
+    </ion-navbar>
+
+    <ion-toolbar no-border-top>
+        <ion-segment [(ngModel)]="team">
+            <ion-segment-button value=1>
+                Equipe 1
+            </ion-segment-button>
+            <ion-segment-button value=2>
+                Equipe 2
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <!--<div [ngSwitch]="team">
+        <div class="row" *ngSwitchCase="'1'">
+            <div class="col" style="text-align: center; max-width: 50%">
+                <ion-card>
+                    <ion-card-header>
+                        Doughnut Chart
+                    </ion-card-header>
+                    <ion-card-content>
+                        <canvas #doughnutCanvas></canvas>
+                    </ion-card-content>
+                </ion-card>
+            </div>
+            <div class="col" style="text-align: center; max-width: 50%">
+                <ion-card>
+                    <ion-card-header>
+                        Line Chart
+                    </ion-card-header>
+                    <ion-card-content>
+                        <canvas #lineCanvas1 [hidden]="team=='2'"></canvas>
+                    </ion-card-content>
+                </ion-card>
+            </div>
+        </div>
+
+        <div class="row" *ngSwitchCase="'2'">
+            <div class="col" style="text-align: center; max-width: 50%">
+<p>Coucou</p>
+            </div>
+            <div class="col" style="text-align: center; max-width: 50%">
+                <ion-card>
+                    <ion-card-header>
+                        Line Chart
+                    </ion-card-header>
+                    <ion-card-content>
+                        <canvas #lineCanvas2 [hidden]="team=='1'"></canvas>
+                    </ion-card-content>
+                </ion-card>
+            </div>
+        </div>
+
+
+    </div>-->
+    <div class="row" style="text-align: center;">
+        <div class="col" style="text-align: center;">
+            <h1 style="text-align: center">Equipe {{firstTeam}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col" style="text-align: center; max-width: 50%">
+            <ion-card>
+                <ion-card-header>
+                    Doughnut Chart
+                </ion-card-header>
+                <ion-card-content>
+                    <canvas #doughnutCanvas></canvas>
+                </ion-card-content>
+            </ion-card>
+        </div>
+        <div class="col" style="text-align: center; max-width: 50%">
+            <ion-card>
+                <ion-card-header>
+                    Line Chart
+                </ion-card-header>
+                <ion-card-content>
+                    <canvas #lineCanvas1></canvas>
+                </ion-card-content>
+            </ion-card>
+        </div>
+
+    </div>
+    <ion-card>
+        <ion-card-header>
+            Scatter Chart
+        </ion-card-header>
+        <ion-card-content>
+            <canvas #ctx></canvas>
+        </ion-card-content>
+    </ion-card>
+
+    <button (click)="connect()">Connect</button>
+</ion-content>
