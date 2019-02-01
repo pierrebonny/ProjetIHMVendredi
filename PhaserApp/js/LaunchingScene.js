@@ -83,13 +83,6 @@ class LaunchingScene {
             let angle = (ratio * 360);
             if (angle === 0) angle = 1;
 
-            // stop timer
-            if (seconds < 0) {
-                console.log("Timer stopped");
-                this.cutTimer();
-                return;
-            }
-
             // fudge it so the circle completes
             angle = angle - 0.0001;
 

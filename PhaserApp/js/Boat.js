@@ -1,12 +1,16 @@
 class Boat {
-    constructor(x, y, color) {
+    constructor(x, y, color, finishDetected) {
         this.boat = game.add.sprite(x, y,'boat_'+color);
         game.physics.p2.enable(this.boat);
 
         this.boat.body.angle = 90;
         this.velocity = 0;
 
+        this.color = color;
         this.positions = [];
+
+        this.finish = false;
+        this.finishDetected = finishDetected;
     }
 
     update(cursors) {
@@ -41,6 +45,9 @@ class Boat {
 
         // Save position
         this.savePosition();
+
+        // Check finish
+        this.checkFinish();
     }
 
     reactFromMovement(mov) {
@@ -55,9 +62,18 @@ class Boat {
     }
 
     savePosition() {
+        if (this.finish) return;
+
         const time = Date.now();
         if (this.positions.length === 0 || time - this.positions[this.positions.length-1].time > 1000) {
             this.positions[this.positions.length] = {time: time, x: this.boat.x, y: this.boat.y};
+        }
+    }
+
+    checkFinish() {
+        if (!this.finish && this.boat.x > 1696) {
+            this.finishDetected(this.color, this.positions);
+            this.finish = true;
         }
     }
 }

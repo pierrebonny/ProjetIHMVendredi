@@ -67,7 +67,7 @@ class GameScene {
         let color;
         for (let i = 1; i <= this.race.nbPlayers(); i++) {
             color = this.race.getColors()[i-1];
-            boat = new Boat(200, 400*i, color);
+            boat = new Boat(200, 400*i, color, this.finishDetected.bind(this));
             boat.getBoat().body.setCollisionGroup(boatsCollisionGroup);
             boat.getBoat().body.collides([boatsCollisionGroup, separatorsCollisionGroup]);
             this.boats[color] = boat;
@@ -94,5 +94,9 @@ class GameScene {
         } else {
             game.scale.startFullScreen(false);
         }
+    }
+
+    finishDetected(color, boatPosition) {
+        this.client.sendFinished(color, boatPosition);
     }
 }
