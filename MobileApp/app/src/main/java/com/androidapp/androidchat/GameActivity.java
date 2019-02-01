@@ -59,7 +59,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        ChatApplication app = (ChatApplication) getApplication();
+        KayakRacerApp app = (KayakRacerApp) getApplication();
 
         timer = (TextView) findViewById(R.id.timer);
         mSocket = app.getSocket();
@@ -124,7 +124,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     private void sendMove(float speed, float roll) {
         JSONObject object = new JSONObject();
         try {
-            object.put("rotation", (leftOrRight == 1) ? 100 : -100);
+            object.put("rotation", (leftOrRight == 1) ? .0000000001 : -.0000000001);
             object.put("speed", speed);
             object.put("color", Constants.color);
             object.put("id", Constants.id);
@@ -234,7 +234,7 @@ public class GameActivity extends Activity implements SensorEventListener {
             } else if (!checkTime) {
                 timer.setText("" + (300 - ((new Date()).getTime() - startTime)));
                 if (((new Date()).getTime() - startTime) > 300) {
-                    sendMove(100 * azimuthCoefficient(isLeftOrRightValue, startAzimuth, azimuth) * rollCoefficient(isLeftOrRightValue, roll), roll);
+                    sendMove(150 * azimuthCoefficient(isLeftOrRightValue, startAzimuth, azimuth) * rollCoefficient(isLeftOrRightValue, roll), roll);
                     timer.setText("waiting!");
                     checkTime = true;
                     leftOrRight = 0;
@@ -275,10 +275,10 @@ public class GameActivity extends Activity implements SensorEventListener {
     public float azimuthCoefficient(int leftOrRight, float startAzimuth, float azimuth) {
         float coeff = 0;
         if (leftOrRight == 1) {
-            coeff = -(azimuth - startAzimuth)*10;
+            coeff = -(azimuth - startAzimuth)/1.2f;
         }
         if (leftOrRight == 2) {
-            coeff = (azimuth - startAzimuth)*10;
+            coeff = (azimuth - startAzimuth)/1.2f;
         }
         return coeff;
     }

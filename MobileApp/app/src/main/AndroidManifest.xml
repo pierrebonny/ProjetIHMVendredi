@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:name="com.androidapp.androidchat.ChatApplication"
+        android:name="com.androidapp.androidchat.KayakRacerApp"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.androidapp.androidchat.LoginActivity"
+            android:name="com.androidapp.androidchat.JoinTeamActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.AppCompat"
             android:windowSoftInputMode="adjustResize|stateVisible" >

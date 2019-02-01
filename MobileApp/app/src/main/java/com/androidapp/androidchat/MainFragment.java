@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -28,9 +25,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
@@ -44,14 +38,10 @@ public class MainFragment extends Fragment {
 
     private static final int REQUEST_LOGIN = 0;
 
-    private static final int TYPING_TIMER_LENGTH = 600;
-
     private RecyclerView mMessagesView;
     private EditText mInputMessageView;
-    private List<Message> mMessages = new ArrayList<Message>();
     private RecyclerView.Adapter mAdapter;
     private boolean mTyping = false;
-    private Handler mTypingHandler = new Handler();
     private String mUsername;
     private Socket mSocket;
 
@@ -68,7 +58,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mAdapter = new MessageAdapter(context, mMessages);
         if (context instanceof Activity){
             //this.listener = (MainActivity) context;
         }
@@ -81,7 +70,7 @@ public class MainFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        ChatApplication app = (ChatApplication) getActivity().getApplication();
+        KayakRacerApp app = (KayakRacerApp) getActivity().getApplication();
         mSocket = app.getSocket();
         mSocket.on(Socket.EVENT_CONNECT,onConnect);
         mSocket.on(Socket.EVENT_DISCONNECT,onDisconnect);
@@ -159,9 +148,6 @@ public class MainFragment extends Fragment {
 
         mUsername = data.getStringExtra("username");
         int numUsers = data.getIntExtra("numUsers", 1);
-
-        addLog(getResources().getString(R.string.message_welcome));
-        addParticipantsLog(numUsers);
     }
 
     @Override
@@ -186,23 +172,6 @@ public class MainFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void addLog(String message) {
-        mMessages.add(new Message.Builder(Message.TYPE_LOG)
-                .message(message).build());
-        mAdapter.notifyItemInserted(mMessages.size() - 1);
-        scrollToBottom();
-    }
-
-    private void addParticipantsLog(int numUsers) {
-        addLog(getResources().getQuantityString(R.plurals.message_participants, numUsers, numUsers));
-    }
-
-    private void addMessage(String username, String message) {
-        mMessages.add(new Message.Builder(Message.TYPE_MESSAGE)
-                .username(username).message(message).build());
-        mAdapter.notifyItemInserted(mMessages.size() - 1);
-        scrollToBottom();
-    }
 
     private void attemptSend() {
         if (null == mUsername) return;
@@ -217,7 +186,6 @@ public class MainFragment extends Fragment {
         }
 
         mInputMessageView.setText("");
-        addMessage(mUsername, message);
 
         // perform the sending message attempt.
         mSocket.emit("new message", message);
@@ -225,7 +193,7 @@ public class MainFragment extends Fragment {
 
     private void startSignIn() {
         mUsername = null;
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        Intent intent = new Intent(getActivity(), JoinTeamActivity.class);
         startActivityForResult(intent, REQUEST_LOGIN);
     }
 
@@ -351,8 +319,8 @@ public class MainFragment extends Fragment {
                     Log.d("FINISH", "FINISH");
                 }
             });
-            Constants.finish=true;
-            Constants.start=false;
+            Constants.finish=false;
+            Constants.start=true;
         }
     };
 
@@ -365,8 +333,8 @@ public class MainFragment extends Fragment {
                     Log.d("START", "START");
                 }
             });
-            Constants.start=true;
-            Constants.finish=false;
+            Constants.start=false;
+            Constants.finish=true;
         }
     };
 
