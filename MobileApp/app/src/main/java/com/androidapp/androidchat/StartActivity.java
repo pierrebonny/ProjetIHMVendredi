@@ -18,10 +18,11 @@ public class StartActivity extends Activity {
         setContentView(R.layout.activity_start);
         ChatApplication app = (ChatApplication) getApplication();
         mSocket = app.getSocket();
-        Button signInButton = (Button) findViewById(R.id.start_button);
-        signInButton.setOnClickListener(new View.OnClickListener() {
+        final Button startButton = (Button) findViewById(R.id.start_button);
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startButton.setText("WAITING FOR PLAYERS");
                 attemptStart();
             }
         });

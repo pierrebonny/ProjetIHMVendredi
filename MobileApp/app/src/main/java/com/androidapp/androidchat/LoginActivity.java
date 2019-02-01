@@ -22,32 +22,32 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         ChatApplication app = (ChatApplication) getApplication();
         mSocket = app.getSocket();
-        Button joinBlueButton = (Button) findViewById(R.id.join_blue);
+        Button joinBlueButton = (Button) findViewById(R.id.join_blue1);
         joinBlueButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin("blue");
+                attemptLogin("blue", 1);
             }
         });
-        Button joinRedButton = (Button) findViewById(R.id.join_red);
+        Button joinRedButton = (Button) findViewById(R.id.join_blue2);
         joinRedButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin("red");
+                attemptLogin("blue", 2);
             }
         });
-        Button joinYellowButton = (Button) findViewById(R.id.join_yellow);
+        Button joinYellowButton = (Button) findViewById(R.id.join_red3);
         joinYellowButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin("yellow");
+                attemptLogin("red", 3);
             }
         });
-        Button joinGreenButton = (Button) findViewById(R.id.join_green);
+        Button joinGreenButton = (Button) findViewById(R.id.join_red4);
         joinGreenButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin("green");
+                attemptLogin("red", 4);
             }
         });
 
@@ -64,7 +64,7 @@ public class LoginActivity extends Activity {
      * If there are form errors (invalid username, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin(String colorpicker) {
+    private void attemptLogin(String colorpicker, int id) {
 
         JSONObject object = new JSONObject();
         try {
@@ -72,6 +72,7 @@ public class LoginActivity extends Activity {
             object.put("color", colorpicker);
             //object.put("current", new Double(152.32));
             Constants.color = colorpicker;
+            Constants.id = id;
         } catch (JSONException e) {
             e.printStackTrace();
         }

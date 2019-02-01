@@ -3,10 +3,10 @@
 
     <!-- Strings related to login -->
     <string name="prompt_username">What\'s your nickname?</string>
-    <string name="join_yellow">Join Yellow</string>
-    <string name="join_blue">Join Blue</string>
-    <string name="join_green">Join Green</string>
-    <string name="join_red">Join Red</string>
+    <string name="join_blue1">Join Blue, player 1</string>
+    <string name="join_blue2">Join Blue, player 2</string>
+    <string name="join_red3">Join Red, player 3</string>
+    <string name="join_red4">Join Red, player 4</string>
     <string name="start">Start</string>
     <string name="action_sign_in_short">Join</string>
 

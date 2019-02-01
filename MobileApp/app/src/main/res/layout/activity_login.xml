@@ -16,32 +16,32 @@
             android:orientation="vertical">
 
         <Button
-            android:id="@+id/join_yellow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_orange_light"
-            android:text="@string/join_yellow" />
-
-        <Button
-            android:id="@+id/join_green"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_green_dark"
-            android:text="@string/join_green" />
-
-        <Button
-            android:id="@+id/join_red"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_red_dark"
-            android:text="@string/join_red" />
-
-        <Button
-            android:id="@+id/join_blue"
+            android:id="@+id/join_blue1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_dark"
-            android:text="@string/join_blue" />
+            android:text="@string/join_blue1" />
+
+        <Button
+            android:id="@+id/join_blue2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark"
+            android:text="@string/join_blue2" />
+
+        <Button
+            android:id="@+id/join_red3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_dark"
+            android:text="@string/join_red3" />
+
+        <Button
+            android:id="@+id/join_red4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_dark"
+            android:text="@string/join_red4" />
 
     </LinearLayout>
 </ScrollView>
