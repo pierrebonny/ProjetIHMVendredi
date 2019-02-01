@@ -16,8 +16,8 @@ import {Player21Page} from "../pages/players/player21/player21";
 import {Player22Page} from "../pages/players/player22/player22";
 
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-const config: SocketIoConfig = { url: 'http://10.212.111.96:8080/', options: {} };
-
+const config: SocketIoConfig = { url: 'http://localhost:8080/', options: {} };
+//10.212.111.96
 @NgModule({
     declarations: [
         MyApp,

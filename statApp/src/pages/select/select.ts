@@ -50,16 +50,13 @@ export class SelectPage {
             console.log(data.color);
         });
         this.socket.on("MOVE", (data) => {
-            console.log(data.id);
             switch (data.id) {
                 case 1: {
-                    console.log("on est la");
                     this.p1Speed.push(data.speed);
                     this.p1Pitch.push(data.pitch);
                     break;
                 }
                 case 2: {
-                    console.log("on est aussi la");
                     this.p2Speed.push(data.speed);
                     this.p2Pitch.push(data.pitch);
                     break;
@@ -77,12 +74,12 @@ export class SelectPage {
             }
         });
         this.socket.on("FINISH", (data) => {
-            this.p12Position.push({x: 200,y: 800});
-            this.p12Position.push({x: 210, y: 800});
-            this.p12Position.push({x: 220, y: 800});
-            data = data.data;
-            this.winner = data.color; //mettre "les gagnants sont les ...color"
-            console.log("coucou thib");
+            console.log(data.positions);
+            for (let i = 0; i < data.positions.length; i++) {
+                console.log(data.positions[i]);
+                this.p12Position.push({x:data.positions[i].x, y: data.positions[i].y});
+            }
+            console.log(data.color);
             this.enable();
         });
     }
@@ -102,12 +99,24 @@ export class SelectPage {
     }
 
     goToTeam1() {
-        let data = {p1Pitch: this.p1Pitch, p1Speed: this.p1Speed, p2Pitch: this.p2Pitch, p2Speed: this.p2Speed, p12Position: this.p12Position}
+        let data = {
+            p1Pitch: this.p1Pitch,
+            p1Speed: this.p1Speed,
+            p2Pitch: this.p2Pitch,
+            p2Speed: this.p2Speed,
+            p12Position: this.p12Position
+        }
         this.navCtrl.push(Player11Page, data);
     }
 
     goToTeam2() {
-        let data = {p3Pitch: this.p3Pitch, p3Speed: this.p3Speed, p4Pitch: this.p4Pitch, p4Speed: this.p4Speed, p34Position: this.p34Position}
+        let data = {
+            p3Pitch: this.p3Pitch,
+            p3Speed: this.p3Speed,
+            p4Pitch: this.p4Pitch,
+            p4Speed: this.p4Speed,
+            p34Position: this.p34Position
+        }
         this.navCtrl.push(Player21Page, data);
     }
 }
