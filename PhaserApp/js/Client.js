@@ -52,8 +52,8 @@ class Client {
         });
     }
 
-    sendFinished(color, boatPositions) {
-        console.log("send FINISH", {color: color, positions: boatPositions});
-        this.socket.emit("FINISH", {color: color, positions: boatPositions});
+    sendFinished(color, boatPositions, time) {
+        console.log("send FINISH", {color: color, positions: boatPositions, time: time});
+        this.socket.emit("FINISH", {color: color, positions: boatPositions, time: time});
     }
 }

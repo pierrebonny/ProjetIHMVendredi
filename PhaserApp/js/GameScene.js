@@ -18,6 +18,18 @@ class GameScene {
         game.load.image('buoy', 'assets/buoy.png');
         game.load.image('strip', 'assets/white.png');
         game.load.image('separator', 'assets/separator.png');
+        game.load.image('chrono_blue', 'assets/chrono_blue.png');
+        game.load.image('chrono_green', 'assets/chrono_green.png');
+        game.load.image('chrono_red', 'assets/chrono_red.png');
+        game.load.image('chrono_yellow', 'assets/chrono_yellow.png');
+        game.load.image('3', 'assets/3.png');
+        game.load.image('2', 'assets/2.png');
+        game.load.image('1', 'assets/1.png');
+        game.load.image('go', 'assets/go.png');
+        game.load.image('finished', 'assets/finished.png');
+        game.load.audio("mario", "assets/startSound.ogg");
+        game.load.audio("first", "assets/first.ogg");
+        game.load.audio("second", "assets/second.ogg");
     }
 
     create() {
@@ -67,15 +79,29 @@ class GameScene {
         let color;
         for (let i = 1; i <= this.race.nbPlayers(); i++) {
             color = this.race.getColors()[i-1];
-            boat = new Boat(200, 400*i, color, this.finishDetected.bind(this));
+            boat = new Boat(100, 400*i, color, this.finishDetected.bind(this));
             boat.getBoat().body.setCollisionGroup(boatsCollisionGroup);
             boat.getBoat().body.collides([boatsCollisionGroup, separatorsCollisionGroup]);
             this.boats[color] = boat;
         }
 
+        // Chrono
+        this.chronoTexts = {};
+        for (let i = 0; i < this.race.nbPlayers(); i++) {
+            color = this.race.getColors()[i];
+            game.add.image(20 + i*300, 20, "chrono_"+color);
+            this.chronoTexts[color] = game.add.text(90 + i*300, 32, '0:00', { fontSize: '32px', fill: '#000' });
+        }
+
         // Listeners
         this.client.listenMovement(this.reactFromMovement);
         this.cursors = game.input.keyboard.createCursorKeys();
+
+        // Start race
+        this.imgState = 5;
+        this.img = game.add.image(1920/2-212, 1080/2-212, "3");
+        setTimeout(() => game.add.audio("mario").play(), 500);
+        game.time.events.repeat(Phaser.Timer.SECOND * 0.9, 5, this.startRace, this);
     }
 
     reactFromMovement(mov) {
@@ -83,9 +109,18 @@ class GameScene {
     }
 
     update() {
-        for (let color of this.race.getColors()) {
-            this.boats[color].update(this.cursors);
+        if (this.race.getStartTime() !== 0) {
+            for (let color of this.race.getColors()) {
+                this.boats[color].update(this.cursors);
+                if (!this.boats[color].isFinished()) {
+                    this.chronoTexts[color].text = this.formatTime((Date.now() - this.race.getStartTime())/1000);
+                }
+            }
         }
+    }
+
+    formatTime(s) {
+        return s.toString().replace(".", ":");
     }
 
     fullscreen() {
@@ -96,7 +131,40 @@ class GameScene {
         }
     }
 
-    finishDetected(color, boatPosition) {
-        this.client.sendFinished(color, boatPosition);
+    finishDetected(color, boatPositions) {
+        if (this.race.nbTeamFinished() === 0) {
+            game.add.audio("first").play()
+        } else {
+            game.add.audio("second").play()
+        }
+        this.race.teamFinished(color);
+        game.add.image(1920/2-244, 260 + 400*this.race.getBoatPosition(color), "finished");
+        this.client.sendFinished(color, boatPositions, this.chronoTexts[color].text);
+    }
+
+    startRace() {
+        switch (this.imgState) {
+            case 5:
+                this.imgState--;
+                break;
+            case 4:
+                this.img.destroy();
+                this.img = game.add.image(1920/2-212, 1080/2-212, "2");
+                this.imgState--;
+                break;
+            case 3:
+                this.img.destroy();
+                this.img = game.add.image(1920/2-212, 1080/2-212, "1");
+                this.imgState--;
+                break;
+            case 2:
+                this.img.destroy();
+                this.img = game.add.image(1920/2-212, 1080/2-212, "go");
+                this.imgState--;
+                break;
+            case 1:
+                this.img.destroy();
+                this.race.startRace();
+        }
     }
 }

@@ -22,10 +22,10 @@ class Boat {
             this.velocity -= 7;
         }
         else {
-            if (this.velocity >= 7)
-                this.velocity -= 7;
-            if (this.velocity <= -7)
-                this.velocity += 7;
+            if (this.velocity >= 5)
+                this.velocity -= 5;
+            if (this.velocity <= -5)
+                this.velocity += 5;
         }
 
         // Set X and Y speed of velocity
@@ -39,8 +39,14 @@ class Boat {
         else if (cursors.right.isDown) {
             this.boat.body.angularVelocity = 10*(this.velocity/1000);
         }
-        else {
+        /*else {
             this.boat.body.angularVelocity = 0;
+        }*/
+
+        if (this.boat.body.angularVelocity > 0) {
+            this.boat.body.angularVelocity -= 0.05;
+        } else if (this.boat.body.angularVelocity < 0) {
+            this.boat.body.angularVelocity += 0.05;
         }
 
         // Save position
@@ -65,7 +71,7 @@ class Boat {
         if (this.finish) return;
 
         const time = Date.now();
-        if (this.positions.length === 0 || time - this.positions[this.positions.length-1].time > 1000) {
+        if (this.positions.length === 0 || time - this.positions[this.positions.length-1].time > 100) {
             this.positions[this.positions.length] = {time: time, x: this.boat.x, y: this.boat.y};
         }
     }
@@ -75,5 +81,9 @@ class Boat {
             this.finishDetected(this.color, this.positions);
             this.finish = true;
         }
+    }
+
+    isFinished() {
+        return this.finish;
     }
 }

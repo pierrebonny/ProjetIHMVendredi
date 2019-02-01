@@ -79,6 +79,7 @@ class LaunchingScene {
         if (this.startTime !== undefined) {
             let currentTime = new Date();
             let seconds = currentTime.getSeconds() - this.startTime;
+            if (seconds >= 60) seconds -= 60;
             let ratio = seconds/15;
             let angle = (ratio * 360);
             if (angle === 0) angle = 1;

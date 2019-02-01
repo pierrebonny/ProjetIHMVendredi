@@ -13,4 +13,9 @@ function startGame() {
     game.state.add('Game', gameScene, true);
 }
 
-prepareGame();
+//prepareGame();
+
+race = new Race();
+race.addTeam("blue");
+race.addTeam("yellow");
+startGame();
