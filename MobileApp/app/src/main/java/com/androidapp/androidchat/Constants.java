@@ -6,4 +6,5 @@ public class Constants {
     public static String color = "";
     public static int id = -1;
     public static boolean start = false;
+    public static boolean finish = false;
 }

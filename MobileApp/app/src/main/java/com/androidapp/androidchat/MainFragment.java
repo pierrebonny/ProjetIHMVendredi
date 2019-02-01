@@ -91,7 +91,7 @@ public class MainFragment extends Fragment {
         mSocket.on("PLAYER_ADDED", onPlayerAdded);
         mSocket.on("TEAM_READY", onTeamReady);
         mSocket.on("START", onGameStart);
-        mSocket.on("FINISH", onNewMessage);
+        mSocket.on("FINISH", onFinish);
         mSocket.connect();
 
         startSignIn();
@@ -348,10 +348,25 @@ public class MainFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    Log.d("FINISH", "FINISH");
+                }
+            });
+            Constants.finish=true;
+            Constants.start=false;
+        }
+    };
+
+    private Emitter.Listener onFinish = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
                     Log.d("START", "START");
                 }
             });
             Constants.start=true;
+            Constants.finish=false;
         }
     };
 
