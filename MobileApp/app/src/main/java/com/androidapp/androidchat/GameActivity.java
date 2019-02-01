@@ -249,9 +249,9 @@ public class GameActivity extends Activity implements SensorEventListener {
      */
     public int isLeftOrRight(float pitch) {
         if (pitch < -0.5 && pitch > -1.4)
-            return 1;
-        else if (pitch < 1.4 && pitch > 0.5) {
             return 2;
+        else if (pitch < 1.4 && pitch > 0.5) {
+            return 1;
         } else {
             return 0;
         }
