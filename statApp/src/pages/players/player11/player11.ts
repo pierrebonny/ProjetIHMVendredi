@@ -25,6 +25,7 @@ export class Player11Page {
     p2Pitch;
     p2Speed;
     p12Position;
+    positions = [];
 
     constructor(public navCtrl: NavController, public navParams: NavParams) {
         this.p1Pitch = navParams.get('p1Pitch');
@@ -43,23 +44,34 @@ export class Player11Page {
         console.log("connecter avant");
         this.connect();
         console.log("connecter apres");
+        console.log("p12 position :  " + this.p12Position[0].x)
+        for (let i = 0; i < this.p12Position.length; i++) {
+            this.positions.push(this.p12Position[i])
+        }
+        console.log(this.positions);
     }
 
-    goTop2(){
-        let data = {p1Pitch: this.p1Pitch, p1Speed: this.p1Speed, p2Pitch: this.p2Pitch, p2Speed: this.p2Speed, p12Position: this.p12Position}
+    goTop2() {
+        let data = {
+            p1Pitch: this.p1Pitch,
+            p1Speed: this.p1Speed,
+            p2Pitch: this.p2Pitch,
+            p2Speed: this.p2Speed,
+            p12Position: this.p12Position
+        };
         this.navCtrl.push(Player12Page, data);
     }
 
 
-    connect(){
+    connect() {
         let scalePitch = [];
         let scaleSpeed = [];
         let reference = [];
-        for (let i=1; i<this.p1Pitch.length+1; i++){
+        for (let i = 1; i < this.p1Pitch.length + 1; i++) {
             scalePitch.push('.');
             reference.push(90);
         }
-        for (let i=1; i<this.p1Speed.length+1; i++){
+        for (let i = 1; i < this.p1Speed.length + 1; i++) {
             scaleSpeed.push('.');
         }
         this.lineChart = new Chart(this.lineCanvas1.nativeElement, {
@@ -150,19 +162,7 @@ export class Player11Page {
             type: 'scatter',
             data: {
                 datasets: [{
-                    data: [{
-                        x: 1,
-                        y: 1
-                    }, {
-                        x: 3,
-                        y: 7
-                    }, {
-                        x: 6,
-                        y: 5
-                    }, { // add same data as the first one, to draw the closing line
-                        x: 1,
-                        y: 1
-                    }],
+                    data: [{x: this.positions[0].x,y:this.positions[0].y},{x: this.positions[1].x, y: this.positions[1].y}],
                     borderColor: 'black',
                     borderWidth: 1,
                     pointBackgroundColor: ['#000', '#00bcd6', '#d300d6'],
@@ -172,15 +172,6 @@ export class Player11Page {
                     fill: false,
                     tension: 0,
                     showLine: true
-                }, {
-                    data: [{
-                        x: 3.5,
-                        y: 4.5
-                    }],
-                    pointBackgroundColor: 'orange',
-                    pointBorderColor: 'darkorange',
-                    pointRadius: 10,
-                    pointHoverRadius: 10
                 }]
             },
             options: {

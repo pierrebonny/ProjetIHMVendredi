@@ -56,7 +56,6 @@ export class SelectPage {
                     console.log("on est la");
                     this.p1Speed.push(data.speed);
                     this.p1Pitch.push(data.pitch);
-                    //this.p12Position.push("");
                     break;
                 }
                 case 2: {
@@ -68,7 +67,6 @@ export class SelectPage {
                 case 3: {
                     this.p3Speed.push(data.speed);
                     this.p3Pitch.push(data.pitch);
-//                  this.p34Position.push("");
                     break;
                 }
                 case 4: {
@@ -79,7 +77,12 @@ export class SelectPage {
             }
         });
         this.socket.on("FINISH", (data) => {
-            this.winner = data.color; //mettre "les gagnats sont les ...color"
+            this.p12Position.push({x: 200,y: 800});
+            this.p12Position.push({x: 210, y: 800});
+            this.p12Position.push({x: 220, y: 800});
+            data = data.data;
+            this.winner = data.color; //mettre "les gagnants sont les ...color"
+            console.log("coucou thib");
             this.enable();
         });
     }

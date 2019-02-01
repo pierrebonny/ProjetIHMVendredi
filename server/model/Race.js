@@ -38,7 +38,7 @@ class Race {
             client.on('CONNECTION', (data)=> {
                 if(data.device === "Phaser") {
                     try {
-                        let phaser = new Phaser(this);
+                        let phaser = new Phaser(this, client);
                         phaser.setListeners(client);
                         this.display = new Display(client);
                         console.log('Phaser est connecté !');
