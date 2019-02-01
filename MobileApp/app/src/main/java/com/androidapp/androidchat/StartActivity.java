@@ -16,7 +16,7 @@ public class StartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        ChatApplication app = (ChatApplication) getApplication();
+        KayakRacerApp app = (KayakRacerApp) getApplication();
         mSocket = app.getSocket();
         final Button startButton = (Button) findViewById(R.id.start_button);
         startButton.setOnClickListener(new View.OnClickListener() {

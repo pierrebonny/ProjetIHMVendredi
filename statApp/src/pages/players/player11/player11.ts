@@ -41,14 +41,14 @@ export class Player11Page {
         console.log(this.p1Pitch);
         console.log("p2pitch : ");
         console.log(this.p2Pitch);
-        console.log("connecter avant");
-        this.connect();
-        console.log("connecter apres");
-        console.log("p12 position :  " + this.p12Position[0].x)
-        for (let i = 0; i < this.p12Position.length; i++) {
-            this.positions.push(this.p12Position[i])
+        console.log("p12position : ");
+        console.log(this.p12Position);
+        for(let i=0; i<this.p12Position.length; i++){
+            this.positions.push(this.p12Position[i]);
+            console.log("positions : ");
+            console.log(this.positions[i]);
         }
-        console.log(this.positions);
+        this.connect();
     }
 
     goTop2() {
@@ -162,7 +162,7 @@ export class Player11Page {
             type: 'scatter',
             data: {
                 datasets: [{
-                    data: [{x: this.positions[0].x,y:this.positions[0].y},{x: this.positions[1].x, y: this.positions[1].y}],
+                    data: this.positions,
                     borderColor: 'black',
                     borderWidth: 1,
                     pointBackgroundColor: ['#000', '#00bcd6', '#d300d6'],

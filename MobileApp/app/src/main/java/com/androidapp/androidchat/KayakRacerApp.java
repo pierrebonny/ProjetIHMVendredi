@@ -8,7 +8,7 @@ import java.net.URISyntaxException;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
-public class ChatApplication extends Application {
+public class KayakRacerApp extends Application {
 
     private Socket mSocket;
     {

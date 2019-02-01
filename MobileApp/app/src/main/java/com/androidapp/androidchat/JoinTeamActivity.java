@@ -12,15 +12,15 @@ import org.json.JSONObject;
 import io.socket.client.Socket;
 
 
-public class LoginActivity extends Activity {
+public class JoinTeamActivity extends Activity {
 
     private Socket mSocket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ChatApplication app = (ChatApplication) getApplication();
+        setContentView(R.layout.activity_join_team);
+        KayakRacerApp app = (KayakRacerApp) getApplication();
         mSocket = app.getSocket();
         Button joinBlueButton = (Button) findViewById(R.id.join_blue1);
         joinBlueButton.setOnClickListener(new OnClickListener() {
