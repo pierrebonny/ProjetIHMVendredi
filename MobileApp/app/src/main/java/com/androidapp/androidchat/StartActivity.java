@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import io.socket.client.Socket;
 
@@ -18,11 +19,14 @@ public class StartActivity extends Activity {
         setContentView(R.layout.activity_start);
         KayakRacerApp app = (KayakRacerApp) getApplication();
         mSocket = app.getSocket();
+        final TextView waitingText = (TextView)findViewById(R.id.waiting);
+        waitingText.setVisibility(View.INVISIBLE);
         final Button startButton = (Button) findViewById(R.id.start_button);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startButton.setText("WAITING FOR PLAYERS");
+                    waitingText.setVisibility(View.VISIBLE);
+                    startButton.setVisibility(View.VISIBLE);
                 attemptStart();
             }
         });

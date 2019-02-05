@@ -22,32 +22,60 @@ public class JoinTeamActivity extends Activity {
         setContentView(R.layout.activity_join_team);
         KayakRacerApp app = (KayakRacerApp) getApplication();
         mSocket = app.getSocket();
-        Button joinBlueButton = (Button) findViewById(R.id.join_blue1);
-        joinBlueButton.setOnClickListener(new OnClickListener() {
+        Button joinBlueButton1 = (Button) findViewById(R.id.join_blue1);
+        joinBlueButton1.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin("blue", 1);
+                attemptJoin("blue", 1);
             }
         });
-        Button joinRedButton = (Button) findViewById(R.id.join_blue2);
-        joinRedButton.setOnClickListener(new OnClickListener() {
+        Button joinBlueButton2 = (Button) findViewById(R.id.join_blue2);
+        joinBlueButton2.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin("blue", 2);
+                attemptJoin("blue", 2);
             }
         });
-        Button joinYellowButton = (Button) findViewById(R.id.join_red3);
-        joinYellowButton.setOnClickListener(new OnClickListener() {
+        Button joinRedButton1 = (Button) findViewById(R.id.join_red3);
+        joinRedButton1.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin("red", 3);
+                attemptJoin("red", 3);
             }
         });
-        Button joinGreenButton = (Button) findViewById(R.id.join_red4);
-        joinGreenButton.setOnClickListener(new OnClickListener() {
+        Button joinRedButton2 = (Button) findViewById(R.id.join_red4);
+        joinRedButton2.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin("red", 4);
+                attemptJoin("red", 4);
+            }
+        });
+        Button joinGreenButton1 = (Button) findViewById(R.id.join_green5);
+        joinGreenButton1.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptJoin("green", 5);
+            }
+        });
+        Button joinGreenButton2 = (Button) findViewById(R.id.join_green6);
+        joinGreenButton2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptJoin("green", 6);
+            }
+        });
+        Button joinOrangeButton1 = (Button) findViewById(R.id.join_orange7);
+        joinOrangeButton1.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptJoin("orange", 7);
+            }
+        });
+        Button joinOrangeButton2 = (Button) findViewById(R.id.join_orange8);
+        joinOrangeButton2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptJoin("orange", 8);
             }
         });
 
@@ -59,12 +87,8 @@ public class JoinTeamActivity extends Activity {
 
     }
 
-    /**
-     * Attempts to sign in the account specified by the login form.
-     * If there are form errors (invalid username, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    private void attemptLogin(String colorpicker, int id) {
+
+    private void attemptJoin(String colorpicker, int id) {
 
         JSONObject object = new JSONObject();
         try {
