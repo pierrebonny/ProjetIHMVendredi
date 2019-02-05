@@ -74,12 +74,20 @@ export class SelectPage {
             }
         });
         this.socket.on("FINISH", (data) => {
-            console.log(data.positions);
-            for (let i = 0; i < data.positions.length; i++) {
-                console.log(data.positions[i]);
-                this.p12Position.push({x:data.positions[i].x, y: data.positions[i].y});
+            if (data.color == this.teamOne){
+                for (let i = 0; i < data.positions.length; i++) {
+                    this.p12Position.push({x:data.positions[i].x, y: data.positions[i].y});
+                }
+            }else if(data.color == this.teamTwo){
+                for (let i = 0; i < data.positions.length; i++) {
+                    this.p34Position.push({x:data.positions[i].x, y: data.positions[i].y});
+                }
             }
+
             console.log(data.color);
+            console.log("team1 : "+this.teamOne);
+            console.log("team2 : "+this.teamTwo);
+
             this.enable();
         });
     }

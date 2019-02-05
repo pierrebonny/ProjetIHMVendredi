@@ -151,37 +151,15 @@ export class Player12Page {
             type: 'scatter',
             data: {
                 datasets: [{
-                    data: [{
-                        x: 1,
-                        y: 1
-                    }, {
-                        x: 3,
-                        y: 7
-                    }, {
-                        x: 6,
-                        y: 5
-                    }, { // add same data as the first one, to draw the closing line
-                        x: 1,
-                        y: 1
-                    }],
+                    label: "Trajectoire du kayak",
+                    data: this.p12Position,
                     borderColor: 'black',
                     borderWidth: 1,
-                    pointBackgroundColor: ['#000', '#00bcd6', '#d300d6'],
-                    pointBorderColor: ['#000', '#00bcd6', '#d300d6'],
                     pointRadius: 5,
                     pointHoverRadius: 5,
                     fill: false,
                     tension: 0,
                     showLine: true
-                }, {
-                    data: [{
-                        x: 3.5,
-                        y: 4.5
-                    }],
-                    pointBackgroundColor: 'orange',
-                    pointBorderColor: 'darkorange',
-                    pointRadius: 10,
-                    pointHoverRadius: 10
                 }]
             },
             options: {
@@ -191,7 +169,8 @@ export class Player12Page {
                     xAxes: [{
                         ticks: {
                             min: 0,
-                            max: 10
+                            max: 1920,
+                            padding: 50
                         },
                         gridLines: {
                             color: '#888',
@@ -200,9 +179,9 @@ export class Player12Page {
                     }],
                     yAxes: [{
                         ticks: {
-                            min: 0,
-                            max: 8,
-                            padding: 10
+                            min: 455,
+                            max: 730,
+                            padding: 50
                         },
                         gridLines: {
                             color: '#888',

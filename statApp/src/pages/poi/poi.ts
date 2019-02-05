@@ -55,7 +55,7 @@ export class PoiPage {
         }
         let collision = false;
         for (let i=0; i< this.position.length; i++){
-            if (this.position[i].y <= 467 || this.position[i].y >=700){
+            if (this.position[i].y <= 469 || this.position[i].y >=700){
                 if (!collision){
                     collision = true;
                     this.tabOfTimes.push(i/10+" sec");

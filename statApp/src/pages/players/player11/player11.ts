@@ -47,6 +47,8 @@ export class Player11Page {
         for (let i=0; i<this.p12Position.length; i++){
             this.p12Position[i].y=970-this.p12Position[i].y;
         }
+        console.log("positions 12 corrigées : ");
+        console.log(this.p12Position);
         this.connect();
     }
 
