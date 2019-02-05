@@ -104,7 +104,8 @@ export class SelectPage {
             p1Speed: this.p1Speed,
             p2Pitch: this.p2Pitch,
             p2Speed: this.p2Speed,
-            p12Position: this.p12Position
+            p12Position: this.p12Position,
+            p34Position: this.p34Position
         }
         this.navCtrl.push(Player11Page, data);
     }
@@ -115,6 +116,7 @@ export class SelectPage {
             p3Speed: this.p3Speed,
             p4Pitch: this.p4Pitch,
             p4Speed: this.p4Speed,
+            p12Position: this.p12Position,
             p34Position: this.p34Position
         }
         this.navCtrl.push(Player21Page, data);

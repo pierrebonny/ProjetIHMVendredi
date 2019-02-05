@@ -14,6 +14,7 @@ import {Player11Page} from "../pages/players/player11/player11";
 import {Player12Page} from "../pages/players/player12/player12";
 import {Player21Page} from "../pages/players/player21/player21";
 import {Player22Page} from "../pages/players/player22/player22";
+import {PoiPage} from "../pages/poi/poi";
 
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 const config: SocketIoConfig = { url: 'http://localhost:8080/', options: {} };
@@ -27,6 +28,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8080/', options: {} };
         SampleModalPage,
         Player12Page,
         Player21Page,
+        PoiPage,
         Player22Page
     ],
     imports: [
@@ -44,7 +46,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8080/', options: {} };
         Player11Page,
         Player12Page,
         Player21Page,
-        Player22Page
+        Player22Page,
+        PoiPage
     ],
     providers: [
         StatusBar,

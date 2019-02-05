@@ -1,7 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import {Player12Page} from "../player12/player12";
 import {Chart} from 'chart.js';
+import {PoiPage} from "../../poi/poi";
 
 @IonicPage()
 @Component({
@@ -25,15 +26,15 @@ export class Player11Page {
     p2Pitch;
     p2Speed;
     p12Position;
-    positions = [];
+    p34Position;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
         this.p1Pitch = navParams.get('p1Pitch');
         this.p1Speed = navParams.get('p1Speed');
         this.p2Pitch = navParams.get('p2Pitch');
         this.p2Speed = navParams.get('p2Speed');
         this.p12Position = navParams.get('p12Position');
-
+        this.p34Position = navParams.get('p34Position)');
     }
 
     ionViewDidLoad() {
@@ -43,10 +44,8 @@ export class Player11Page {
         console.log(this.p2Pitch);
         console.log("p12position : ");
         console.log(this.p12Position);
-        for(let i=0; i<this.p12Position.length; i++){
-            this.positions.push(this.p12Position[i]);
-            console.log("positions : ");
-            console.log(this.positions[i]);
+        for (let i=0; i<this.p12Position.length; i++){
+            this.p12Position[i].y=970-this.p12Position[i].y;
         }
         this.connect();
     }
@@ -79,7 +78,6 @@ export class Player11Page {
             type: 'line',
             data: {
                 labels: scalePitch,
-
                 datasets: [
                     {
                         label: "Angle de la pagaie par rapport à l'optimal",
@@ -162,11 +160,10 @@ export class Player11Page {
             type: 'scatter',
             data: {
                 datasets: [{
-                    data: this.positions,
+                    label: "Trajectoire du kayak",
+                    data: this.p12Position,
                     borderColor: 'black',
                     borderWidth: 1,
-                    pointBackgroundColor: ['#000', '#00bcd6', '#d300d6'],
-                    pointBorderColor: ['#000', '#00bcd6', '#d300d6'],
                     pointRadius: 5,
                     pointHoverRadius: 5,
                     fill: false,
@@ -181,7 +178,8 @@ export class Player11Page {
                     xAxes: [{
                         ticks: {
                             min: 0,
-                            max: 10
+                            max: 1920,
+                            padding: 50
                         },
                         gridLines: {
                             color: '#888',
@@ -190,9 +188,9 @@ export class Player11Page {
                     }],
                     yAxes: [{
                         ticks: {
-                            min: 0,
-                            max: 8,
-                            padding: 10
+                            min: 455,
+                            max: 730,
+                            padding: 50
                         },
                         gridLines: {
                             color: '#888',
@@ -202,6 +200,12 @@ export class Player11Page {
                 }
             }
         });
+    }
+
+    openPoi(){
+        let obj = {speed: this.p12Position, position: this.p12Position, positionOther: this.p12Position};
+        let myModal = this.modalCtrl.create(PoiPage, obj);
+        myModal.present();
     }
 
 }
