@@ -83,7 +83,7 @@ class Boat {
         }
     }
 
-    isFinished() {
+    hasFinished() {
         return this.finish;
     }
 }

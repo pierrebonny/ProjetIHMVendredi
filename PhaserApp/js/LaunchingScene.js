@@ -100,11 +100,16 @@ class LaunchingScene {
             // Draw the arc
             this.clock.lineStyle(15, 0xff9933);
             this.clock.arc(0, 0, 100, game.math['degToRad'](-89.999), game.math['degToRad'](-89.999 + angle), false);
-            this.timeTxt.text = ('00'+seconds).slice(-2);
+            this.timeTxt.text = seconds;
+
+            // Seconds without "s"
+            if (seconds === 1) {
+                this.secondsTxt.text = "SECONDE";
+            }
 
             // Stop clock
             if (seconds === 0) {
-                this.startTime = undefined;
+                this.clockAvailable = false;
             }
         }
     }

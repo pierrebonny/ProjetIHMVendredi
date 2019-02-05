@@ -3,6 +3,7 @@ class Race {
         this.teams = [];
         this.start = 0;
         this.ranking = [];
+        this.times = {};
     }
 
     /* Teams */
@@ -36,11 +37,25 @@ class Race {
     }
 
     /* Ranking */
-    teamFinished(color) {
+    teamFinished(color, time) {
         this.ranking[this.ranking.length] = color;
+        this.times[color] = time;
     }
 
     nbTeamFinished() {
         return this.ranking.length;
+    }
+
+    getColorsRanking() {
+        return this.ranking;
+    }
+
+    getTeamTime(color) {
+        return this.times[color];
+    }
+
+    /* Ending */
+    allFinished() {
+        return this.teams.length === this.ranking.length;
     }
 }

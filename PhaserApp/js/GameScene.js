@@ -2,9 +2,10 @@
  * Scene containing the game and the boats
  */
 class GameScene {
-    constructor(client, race) {
+    constructor(client, race, finishGame) {
         this.client = client;
         this.race = race;
+        this.finishGame = finishGame;
         this.reactFromMovement = this.reactFromMovement.bind(this);
         this.boats = {};
     }
@@ -112,7 +113,7 @@ class GameScene {
         if (this.race.getStartTime() !== 0) {
             for (let color of this.race.getColors()) {
                 this.boats[color].update(this.cursors);
-                if (!this.boats[color].isFinished()) {
+                if (!this.boats[color].hasFinished()) {
                     this.chronoTexts[color].text = this.formatTime((Date.now() - this.race.getStartTime())/1000);
                 }
             }
@@ -132,14 +133,23 @@ class GameScene {
     }
 
     finishDetected(color, boatPositions) {
+        // Audio
         if (this.race.nbTeamFinished() === 0) {
             game.add.audio("first").play()
         } else {
             game.add.audio("second").play()
         }
-        this.race.teamFinished(color);
-        game.add.image(1920/2-244, 260 + 400*this.race.getBoatPosition(color), "finished");
+
+        // Image
+        game.add.image(game.world.centerX-244, 260 + 400*this.race.getBoatPosition(color), "finished");
+
+        this.race.teamFinished(color, this.chronoTexts[color].text);
         this.client.sendFinished(color, boatPositions, this.chronoTexts[color].text);
+
+        // Detect race ending
+        if (this.race.allFinished()) {
+            setTimeout(() => this.finishGame(), 5000);
+        }
     }
 
     startRace() {
@@ -149,17 +159,20 @@ class GameScene {
                 break;
             case 4:
                 this.img.destroy();
-                this.img = game.add.image(1920/2-212, 1080/2-212, "2");
+                this.img = game.add.image(game.world.centerX, game.world.centerY, "2");
+                this.img.anchor.set(0.5, 0.5);
                 this.imgState--;
                 break;
             case 3:
                 this.img.destroy();
-                this.img = game.add.image(1920/2-212, 1080/2-212, "1");
+                this.img = game.add.image(game.world.centerX, game.world.centerY, "1");
+                this.img.anchor.set(0.5, 0.5);
                 this.imgState--;
                 break;
             case 2:
                 this.img.destroy();
-                this.img = game.add.image(1920/2-212, 1080/2-212, "go");
+                this.img = game.add.image(game.world.centerX, game.world.centerY, "go");
+                this.img.anchor.set(0.5, 0.5);
                 this.imgState--;
                 break;
             case 1:

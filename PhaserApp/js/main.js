@@ -9,12 +9,12 @@ function prepareGame() {
 }
 
 function startGame() {
-    let gameScene = new GameScene(client, race);
+    let gameScene = new GameScene(client, race, finishGame);
     game.state.add('Game', gameScene, true);
 }
 
 function finishGame() {
-    let endingScene = new EndingScene(client, race);
+    let endingScene = new EndingScene(client, race, prepareGame);
     game.state.add('Ending', endingScene, true);
 }
 
