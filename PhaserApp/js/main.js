@@ -13,9 +13,9 @@ function startGame() {
     game.state.add('Game', gameScene, true);
 }
 
-//prepareGame();
+function finishGame() {
+    let endingScene = new EndingScene(client, race);
+    game.state.add('Ending', endingScene, true);
+}
 
-race = new Race();
-race.addTeam("blue");
-race.addTeam("yellow");
-startGame();
+prepareGame();

@@ -27,14 +27,16 @@ class LaunchingScene {
     create() {
         // Background
         game.add.sprite(0,0,'background');
-        this.logo = game.add.sprite(1500,250, 'logo');
-        this.logo.anchor.setTo(0.5, 0.5);
-        game.time.events.loop(Phaser.Timer.SECOND * 1.5, ()=>this.updateLogo(), this);
 
         // Fullscreen
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.input.onDown.add(this.fullscreen, this);
+
+        // Logo
+        this.logo = game.add.sprite(1500,250, 'logo');
+        this.logo.anchor.setTo(0.5, 0.5);
+        game.time.events.loop(Phaser.Timer.SECOND * 1.5, ()=>this.updateLogo(), this);
 
         // Boats
         const teamColors = ["blue", "green", "red", "yellow"];
@@ -77,43 +79,46 @@ class LaunchingScene {
 
     update() {
         if (this.startTime !== undefined) {
-            let currentTime = new Date();
-            let seconds = currentTime.getSeconds() - this.startTime;
-            if (seconds >= 60) seconds -= 60;
-            let ratio = seconds/15;
+            // Time
+            let seconds = (15 - ((new Date()).getSeconds() - this.startTime)) % 60;
+            let ratio = (15 - seconds)/15;
+
+            // Angle
             let angle = (ratio * 360);
             if (angle === 0) angle = 1;
-
-            // fudge it so the circle completes
             angle = angle - 0.0001;
 
-            // clear the graphic
+            // Clear the graphic
             this.clock.clear();
 
-            // draw the circle
+            // Draw the circle
             this.clock.moveTo(game.world.centerX, game.world.centerY);
             this.clock.beginFill(0xFFFFFFFF,0.1);
             this.clock.drawCircle(0, 0, 278);
             this.clock.endFill();
 
-            // draw the arc
+            // Draw the arc
             this.clock.lineStyle(15, 0xff9933);
             this.clock.arc(0, 0, 100, game.math['degToRad'](-89.999), game.math['degToRad'](-89.999 + angle), false);
-            this.timeTxt.text = ('00'+(15-seconds)).slice(-2);
+            this.timeTxt.text = ('00'+seconds).slice(-2);
+
+            // Stop clock
+            if (seconds === 0) {
+                this.startTime = undefined;
+            }
         }
     }
 
-    updateLogo(){
-        if(this.logoDisplayed){
-            let s = game.add.tween(this.logo.scale);
-            s.to({x: 0.7, y:0.7}, 1800, Phaser.Easing.Linear.None);
-            s.start();
+    updateLogo() {
+        let s = game.add.tween(this.logo.scale);
+
+        if (this.logoDisplayed) {
+            s.to({x: 0.7, y: 0.7}, 1800, Phaser.Easing.Linear.None);
         }
         else {
-            let s = game.add.tween(this.logo.scale);
             s.to({x: 1, y: 1}, 1800, Phaser.Easing.Linear.None);
-            s.start();
         }
+        s.start();
         this.logoDisplayed = !this.logoDisplayed;
     }
 
