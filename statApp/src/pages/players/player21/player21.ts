@@ -1,7 +1,9 @@
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import {Component, ViewChild} from '@angular/core';
 import {Chart} from 'chart.js';
 import {Player22Page} from "../player22/player22";
+import {PoiPage} from "../../poi/poi";
+import {Poi2Page} from "../../poi2/poi2";
 
 /**
  * Generated class for the Player21Page page.
@@ -32,13 +34,15 @@ export class Player21Page {
     p4Pitch;
     p4Speed;
     p34Position;
+    p12Position;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
         this.p3Pitch = navParams.get('p3Pitch');
         this.p3Speed = navParams.get('p3Speed');
         this.p4Pitch = navParams.get('p4Pitch');
         this.p4Speed = navParams.get('p4Speed');
         this.p34Position = navParams.get('p34Position');
+        this.p12Position = navParams.get('p12Position');
     }
 
     ionViewDidLoad() {
@@ -49,9 +53,15 @@ export class Player21Page {
         for (let i=0; i<this.p34Position.length; i++){
             this.p34Position[i].y=970-this.p34Position[i].y;
         }
+        for (let i=0; i<this.p12Position.length; i++){
+            this.p12Position[i].y=970-this.p12Position[i].y;
+        }
 
         console.log("positions 34 corrigées : ");
         console.log(this.p34Position);
+        console.log("positions 21 corrigées : ");
+        console.log(this.p12Position);
+
         this.connect();
     }
 
@@ -162,7 +172,7 @@ export class Player21Page {
                     pointHoverRadius: 5,
                     fill: false,
                     tension: 0,
-                    showLine: true
+                    showLine: false
                 }]
             },
             options: {
@@ -203,8 +213,18 @@ export class Player21Page {
             p4Pitch: this.p4Pitch,
             p4Speed: this.p4Speed,
             p34Position: this.p34Position
-        }
+        };
         this.navCtrl.push(Player22Page, data);
+    }
+
+    openPoi2(){
+        console.log("p12p :");
+        console.log(this.p12Position);
+        console.log("p34p :");
+        console.log(this.p34Position);
+        let obj = {speed: this.p3Speed, position: this.p34Position, positionOther: this.p12Position};
+        let myModal = this.modalCtrl.create(Poi2Page, obj);
+        myModal.present();
     }
 
 

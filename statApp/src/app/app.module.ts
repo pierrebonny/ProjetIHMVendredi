@@ -15,6 +15,7 @@ import {Player12Page} from "../pages/players/player12/player12";
 import {Player21Page} from "../pages/players/player21/player21";
 import {Player22Page} from "../pages/players/player22/player22";
 import {PoiPage} from "../pages/poi/poi";
+import {Poi2Page} from "../pages/poi2/poi2";
 
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 const config: SocketIoConfig = { url: 'http://localhost:8080/', options: {} };
@@ -22,6 +23,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8080/', options: {} };
 @NgModule({
     declarations: [
         MyApp,
+        Poi2Page,
         Player11Page,
         SelectPage,
         HistoryPage,
@@ -40,6 +42,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8080/', options: {} };
     bootstrap: [IonicApp],
     entryComponents: [
         MyApp,
+        Poi2Page,
         HistoryPage,
         SelectPage,
         SampleModalPage,

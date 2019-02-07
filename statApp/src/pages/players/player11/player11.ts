@@ -34,7 +34,7 @@ export class Player11Page {
         this.p2Pitch = navParams.get('p2Pitch');
         this.p2Speed = navParams.get('p2Speed');
         this.p12Position = navParams.get('p12Position');
-        this.p34Position = navParams.get('p34Position)');
+        this.p34Position = navParams.get('p34Position');
     }
 
     ionViewDidLoad() {
@@ -44,11 +44,14 @@ export class Player11Page {
         console.log(this.p2Pitch);
         console.log("p12position : ");
         console.log(this.p12Position);
+        console.log("p34Position");
+        console.log(this.p34Position);
         for (let i=0; i<this.p12Position.length; i++){
             this.p12Position[i].y=970-this.p12Position[i].y;
         }
-        console.log("positions 12 corrigées : ");
-        console.log(this.p12Position);
+        for (let i=0; i<this.p34Position.length; i++){
+            this.p12Position[i].y=970-this.p12Position[i].y;
+        }
         this.connect();
     }
 
@@ -170,7 +173,7 @@ export class Player11Page {
                     pointHoverRadius: 5,
                     fill: false,
                     tension: 0,
-                    showLine: true
+                    showLine: false
                 }]
             },
             options: {
@@ -205,7 +208,7 @@ export class Player11Page {
     }
 
     openPoi(){
-        let obj = {speed: this.p12Position, position: this.p12Position, positionOther: this.p12Position};
+        let obj = {speed: this.p1Speed, position: this.p12Position, positionOther: this.p34Position};
         let myModal = this.modalCtrl.create(PoiPage, obj);
         myModal.present();
     }

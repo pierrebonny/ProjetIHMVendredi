@@ -33,6 +33,7 @@ export class SelectPage {
     p4Speed = [];
     p12Position = [];
     p34Position = [];
+    teamFinished = 0;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private socket: Socket) {
         this.socket.on("CONNECTION_STATE", (data) => {
@@ -74,21 +75,33 @@ export class SelectPage {
             }
         });
         this.socket.on("FINISH", (data) => {
-            if (data.color == this.teamOne){
-                for (let i = 0; i < data.positions.length; i++) {
-                    this.p12Position.push({x:data.positions[i].x, y: data.positions[i].y});
-                }
-            }else if(data.color == this.teamTwo){
-                for (let i = 0; i < data.positions.length; i++) {
-                    this.p34Position.push({x:data.positions[i].x, y: data.positions[i].y});
+            if (this.teamFinished == 0){
+                this.teamFinished = 1;
+                if (data.color == this.teamOne){
+                    for (let i = 0; i < data.positions.length; i++) {
+                        this.p12Position.push({x:data.positions[i].x, y: data.positions[i].y});
+                    }
+                }else if(data.color == this.teamTwo){
+                    for (let i = 0; i < data.positions.length; i++) {
+                        this.p34Position.push({x:data.positions[i].x, y: data.positions[i].y});
+                    }
                 }
             }
+            if (this.teamFinished == 1){
+                if (data.color == this.teamOne){
+                    for (let i = 0; i < data.positions.length; i++) {
+                        this.p12Position.push({x:data.positions[i].x, y: data.positions[i].y});
+                    }
+                }else if(data.color == this.teamTwo){
+                    for (let i = 0; i < data.positions.length; i++) {
+                        this.p34Position.push({x:data.positions[i].x, y: data.positions[i].y});
+                    }
+                }
+                console.log("position12 : "+this.p12Position);
+                console.log("position34 :" +this.p34Position);
 
-            console.log(data.color);
-            console.log("team1 : "+this.teamOne);
-            console.log("team2 : "+this.teamTwo);
-
-            this.enable();
+                this.enable();
+            }
         });
     }
 
@@ -114,7 +127,7 @@ export class SelectPage {
             p2Speed: this.p2Speed,
             p12Position: this.p12Position,
             p34Position: this.p34Position
-        }
+        };
         this.navCtrl.push(Player11Page, data);
     }
 
@@ -126,7 +139,7 @@ export class SelectPage {
             p4Speed: this.p4Speed,
             p12Position: this.p12Position,
             p34Position: this.p34Position
-        }
+        };
         this.navCtrl.push(Player21Page, data);
     }
 }
