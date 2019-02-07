@@ -12,6 +12,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.androidapp.androidchat.MainActivity"
+            android:screenOrientation="landscape"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,9 +21,11 @@
         </activity>
         <activity
             android:name="com.androidapp.androidchat.JoinTeamActivity"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat" >
         </activity>
         <activity android:name=".StartActivity"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat" />
         <activity android:name=".GameActivity"
             android:theme="@style/Theme.AppCompat" />
