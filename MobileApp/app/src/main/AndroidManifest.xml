@@ -20,12 +20,12 @@
         </activity>
         <activity
             android:name="com.androidapp.androidchat.JoinTeamActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/Theme.AppCompat"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:theme="@style/Theme.AppCompat" >
         </activity>
-        <activity android:name=".StartActivity" />
-        <activity android:name=".GameActivity" />
+        <activity android:name=".StartActivity"
+            android:theme="@style/Theme.AppCompat" />
+        <activity android:name=".GameActivity"
+            android:theme="@style/Theme.AppCompat" />
     </application>
 
 </manifest>

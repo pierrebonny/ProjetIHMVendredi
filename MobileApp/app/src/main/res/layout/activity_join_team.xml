@@ -34,7 +34,7 @@
             <Button
                 android:id="@+id/join_blue1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:background="@android:color/holo_blue_dark"
                 android:text="@string/join_blue1" />
@@ -47,7 +47,7 @@
             <Button
                 android:id="@+id/join_blue2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:background="@android:color/holo_blue_dark"
                 android:text="@string/join_blue2" />
@@ -68,7 +68,7 @@
             <Button
                 android:id="@+id/join_red3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:background="@android:color/holo_red_dark"
                 android:text="@string/join_red3" />
@@ -81,74 +81,74 @@
             <Button
                 android:id="@+id/join_red4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:background="@android:color/holo_red_dark"
                 android:text="@string/join_red4" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal">-->
 
-            <Button
-                android:id="@+id/join_green5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/holo_green_dark"
-                android:text="@string/join_green5" />
+            <!--<Button-->
+                <!--android:id="@+id/join_green5"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@android:color/holo_green_dark"-->
+                <!--android:text="@string/join_green5" />-->
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2" />
+            <!--<Space-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="0.2" />-->
 
-            <Button
-                android:id="@+id/join_green6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/holo_green_dark"
-                android:text="@string/join_green6" />
-        </LinearLayout>
+            <!--<Button-->
+                <!--android:id="@+id/join_green6"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@android:color/holo_green_dark"-->
+                <!--android:text="@string/join_green6" />-->
+        <!--</LinearLayout>-->
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <!--<TextView-->
+            <!--android:id="@+id/textView3"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal">-->
 
-            <Button
-                android:id="@+id/join_orange7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/holo_orange_dark"
-                android:text="@string/join_orange7" />
+            <!--<Button-->
+                <!--android:id="@+id/join_orange7"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@android:color/holo_orange_dark"-->
+                <!--android:text="@string/join_orange7" />-->
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2" />
+            <!--<Space-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="0.2" />-->
 
-            <Button
-                android:id="@+id/join_orange8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/holo_orange_dark"
-                android:text="@string/join_orange8" />
-        </LinearLayout>
+            <!--<Button-->
+                <!--android:id="@+id/join_orange8"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@android:color/holo_orange_dark"-->
+                <!--android:text="@string/join_orange8" />-->
+        <!--</LinearLayout>-->
     </LinearLayout>
 </ScrollView>

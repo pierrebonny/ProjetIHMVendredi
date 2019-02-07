@@ -1,7 +1,6 @@
 package com.androidapp.androidchat;
 
 import android.app.Application;
-import android.util.Log;
 
 import java.net.URISyntaxException;
 

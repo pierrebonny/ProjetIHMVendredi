@@ -50,34 +50,34 @@ public class JoinTeamActivity extends Activity {
                 attemptJoin("red", 4);
             }
         });
-        Button joinGreenButton1 = (Button) findViewById(R.id.join_green5);
-        joinGreenButton1.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptJoin("green", 5);
-            }
-        });
-        Button joinGreenButton2 = (Button) findViewById(R.id.join_green6);
-        joinGreenButton2.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptJoin("green", 6);
-            }
-        });
-        Button joinOrangeButton1 = (Button) findViewById(R.id.join_orange7);
-        joinOrangeButton1.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptJoin("orange", 7);
-            }
-        });
-        Button joinOrangeButton2 = (Button) findViewById(R.id.join_orange8);
-        joinOrangeButton2.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptJoin("orange", 8);
-            }
-        });
+//        Button joinGreenButton1 = (Button) findViewById(R.id.join_green5);
+//        joinGreenButton1.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                attemptJoin("green", 5);
+//            }
+//        });
+//        Button joinGreenButton2 = (Button) findViewById(R.id.join_green6);
+//        joinGreenButton2.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                attemptJoin("green", 6);
+//            }
+//        });
+//        Button joinOrangeButton1 = (Button) findViewById(R.id.join_orange7);
+//        joinOrangeButton1.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                attemptJoin("yellow", 7);
+//            }
+//        });
+//        Button joinOrangeButton2 = (Button) findViewById(R.id.join_orange8);
+//        joinOrangeButton2.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                attemptJoin("yellow", 8);
+//            }
+//        });
 
     }
 

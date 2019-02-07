@@ -1,25 +1,15 @@
 package com.androidapp.androidchat;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -29,9 +19,6 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 
-/**
- * A chat fragment containing messages view and input form.
- */
 public class MainFragment extends Fragment {
 
     private static final String TAG = "MainFragment";
@@ -39,9 +26,6 @@ public class MainFragment extends Fragment {
     private static final int REQUEST_LOGIN = 0;
 
     private RecyclerView mMessagesView;
-    private EditText mInputMessageView;
-    private RecyclerView.Adapter mAdapter;
-    private boolean mTyping = false;
     private String mUsername;
     private Socket mSocket;
 
@@ -51,24 +35,9 @@ public class MainFragment extends Fragment {
         super();
     }
 
-
-    // This event fires 1st, before creation of fragment or any views
-    // The onAttach method is called when the Fragment instance is associated with an Activity.
-    // This does not mean the Activity is fully initialized.
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof Activity){
-            //this.listener = (MainActivity) context;
-        }
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
 
         KayakRacerApp app = (KayakRacerApp) getActivity().getApplication();
         mSocket = app.getSocket();
@@ -83,7 +52,7 @@ public class MainFragment extends Fragment {
         mSocket.on("FINISH", onFinish);
         mSocket.connect();
 
-        startSignIn();
+        startJoining();
     }
 
     @Override
@@ -102,7 +71,7 @@ public class MainFragment extends Fragment {
         mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
         mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-        mSocket.on("CONNECTION_STATE", onNewMessage);
+        mSocket.on("CONNECTION_STATE", onConnectStart);
         mSocket.on("PLAYER_ADDED", onPlayerAdded);
         mSocket.on("TEAM_READY", onNewMessage);
         mSocket.on("START", onNewMessage);
@@ -113,29 +82,6 @@ public class MainFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mMessagesView = (RecyclerView) view.findViewById(R.id.messages);
-        mMessagesView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mMessagesView.setAdapter(mAdapter);
-
-        mInputMessageView = (EditText) view.findViewById(R.id.message_input);
-        mInputMessageView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int id, KeyEvent event) {
-                if (id == R.id.send || id == EditorInfo.IME_NULL) {
-                    attemptSend();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        ImageButton sendButton = (ImageButton) view.findViewById(R.id.send_button);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                attemptSend();
-            }
-        });
     }
 
     @Override
@@ -145,15 +91,6 @@ public class MainFragment extends Fragment {
             getActivity().finish();
             return;
         }
-
-        mUsername = data.getStringExtra("username");
-        int numUsers = data.getIntExtra("numUsers", 1);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.menu_main, menu);
     }
 
     @Override
@@ -173,51 +110,25 @@ public class MainFragment extends Fragment {
     }
 
 
-    private void attemptSend() {
-        if (null == mUsername) return;
-        if (!mSocket.connected()) return;
-
-        mTyping = false;
-
-        String message = mInputMessageView.getText().toString().trim();
-        if (TextUtils.isEmpty(message)) {
-            mInputMessageView.requestFocus();
-            return;
-        }
-
-        mInputMessageView.setText("");
-
-        // perform the sending message attempt.
-        mSocket.emit("new message", message);
-    }
-
-    private void startSignIn() {
-        mUsername = null;
+    private void startJoining() {
         Intent intent = new Intent(getActivity(), JoinTeamActivity.class);
         startActivityForResult(intent, REQUEST_LOGIN);
     }
 
     private void startStarting() {
-        mUsername = null;
         Intent intent = new Intent(getActivity(), StartActivity.class);
         startActivityForResult(intent, 0);
     }
 
     private void startGame() {
-        mUsername = null;
         Intent intent = new Intent(getActivity(), GameActivity.class);
         startActivityForResult(intent, 0);
     }
 
     private void leave() {
-        mUsername = null;
         mSocket.disconnect();
         mSocket.connect();
-        startSignIn();
-    }
-
-    private void scrollToBottom() {
-        mMessagesView.scrollToPosition(mAdapter.getItemCount() - 1);
+        startJoining();
     }
 
     private Emitter.Listener onConnect = new Emitter.Listener() {

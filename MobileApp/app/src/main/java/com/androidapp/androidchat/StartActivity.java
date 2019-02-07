@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import io.socket.client.Socket;
 
@@ -19,17 +18,27 @@ public class StartActivity extends Activity {
         setContentView(R.layout.activity_start);
         KayakRacerApp app = (KayakRacerApp) getApplication();
         mSocket = app.getSocket();
-        final TextView waitingText = (TextView)findViewById(R.id.waiting);
-        waitingText.setVisibility(View.INVISIBLE);
-        final Button startButton = (Button) findViewById(R.id.start_button);
-        startButton.setOnClickListener(new View.OnClickListener() {
+        final Button startButtonBlue = (Button) findViewById(R.id.start_button_blue);
+        startButtonBlue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    waitingText.setVisibility(View.VISIBLE);
-                    startButton.setVisibility(View.VISIBLE);
+                startButtonBlue.setText(R.string.waiting_players);
+                startButtonBlue.setEnabled(false);
                 attemptStart();
             }
         });
+        final Button startButtonRed = (Button) findViewById(R.id.start_button_red);
+        startButtonRed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startButtonRed.setText(R.string.waiting_players);
+                startButtonRed.setEnabled(false);
+                attemptStart();
+            }
+        });
+        if (Constants.color.equals("red"))
+            startButtonBlue.setVisibility(View.INVISIBLE);
+        else startButtonRed.setVisibility(View.INVISIBLE);
     }
 
     @Override

@@ -3,14 +3,14 @@
 
     <!-- Strings related to login -->
     <string name="prompt_username">What\'s your nickname?</string>
-    <string name="join_blue1">Player 1</string>
-    <string name="join_blue2">Player 2</string>
-    <string name="join_red3">Player 3</string>
-    <string name="join_red4">Player 4</string>
-    <string name="join_green5">Player 5</string>
-    <string name="join_green6">Player 6</string>
-    <string name="join_orange7">Player 7</string>
-    <string name="join_orange8">Player 8</string>
+    <string name="join_blue1">Pagaie 1</string>
+    <string name="join_blue2">Pagaie 2</string>
+    <string name="join_red3">Pagaie 1</string>
+    <string name="join_red4">Pagaie 2</string>
+    <string name="join_green5">Pagaie 1</string>
+    <string name="join_green6">Pagaie 2</string>
+    <string name="join_orange7">Pagaie 1</string>
+    <string name="join_orange8">Pagaie 2</string>
     <string name="join_text">Sélectionnez le numéro et la couleur de pagaie à associer au téléphone</string>
     <string name="start">Commencer</string>
     <string name="waiting_players">En attente d\'autres joueurs</string>
