@@ -1,5 +1,4 @@
-//const ADDRESS = "10.212.111.96:8080";
-const ADDRESS = "localhost:8080";
+const ADDRESS = "10.212.111.96:8088";
 
 /**
  * Client used to communicate with the server
