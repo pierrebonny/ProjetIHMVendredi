@@ -4,13 +4,16 @@ class Phaser {
         this.phaserClient = phaserClient;
     }
 
-    setListeners (phaserClient){
+    setListeners (){
         this.phaserClient.on("FINISH", (data) => this.onFinish(data));
     }
 
 
-    onFinish(data){
-        this.race.getStatsSocket().emit("FINISH", data);
+    onFinish(data) {
+        if(this.race.getStatsSocket()){
+            this.race.getStatsSocket().emit("FINISH", data);
+        }
+        this.race.finishTeam(data.color);
     }
 }
 module.exports = Phaser;

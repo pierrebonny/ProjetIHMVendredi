@@ -11,6 +11,11 @@ class Race {
     constructor(){
         this.teams = [];
         this.players = new Map();
+        var localIpV4Address = require("local-ipv4-address");
+
+        localIpV4Address().then(function(ipAddress){
+            console.log("Le serveur tourne sur l'adresse IP " + ipAddress);
+        });
         this.server = this.initiateServer();
         this.stats = new Stats();
         this.io = require('socket.io').listen(this.server);
@@ -26,7 +31,7 @@ class Race {
             });
         });
 
-        server.listen(8080);
+        server.listen(8088);
         return server;
     }
 
@@ -110,6 +115,23 @@ class Race {
 
     setTimerId(newTimerId){
         this.timerId = newTimerId;
+    }
+
+    getIo() {
+        return this.io;
+    }
+
+    finishTeam(color) {
+        for(let i in this.teams) {
+            let team = this.teams[i];
+            if(team.getColor() === color) {
+                for(let player of team.getPlayers()) {
+                    console.log("Send finish to player");
+                    player.getSocket().emit("FINISH");
+                }
+                this.teams.splice(i, 1);
+            }
+        }
     }
 }
 module.exports = Race;

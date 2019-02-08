@@ -109,7 +109,7 @@ class LaunchingScene {
 
             // Stop clock
             if (seconds === 0) {
-                this.clockAvailable = false;
+                this.startTime = undefined;
             }
         }
     }

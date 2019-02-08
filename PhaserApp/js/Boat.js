@@ -1,6 +1,8 @@
 class Boat {
     constructor(x, y, color, finishDetected) {
         this.boat = game.add.sprite(x, y,'boat_'+color);
+        this.boat.width = 90;
+        this.boat.height = 90;
         game.physics.p2.enable(this.boat);
 
         this.boat.body.angle = 90;
@@ -39,9 +41,6 @@ class Boat {
         else if (cursors.right.isDown) {
             this.boat.body.angularVelocity = 10*(this.velocity/1000);
         }
-        /*else {
-            this.boat.body.angularVelocity = 0;
-        }*/
 
         if (this.boat.body.angularVelocity > 0) {
             this.boat.body.angularVelocity -= 0.05;
@@ -57,9 +56,12 @@ class Boat {
     }
 
     reactFromMovement(mov) {
-        this.velocity += mov.speed;
+        if (this.boat.body === null) {
+            game.physics.p2.enable(this.boat);
+        }
+        this.velocity += mov.speed*3;
         this.boat.body.angularVelocity += mov.rotation;
-        this.boat.body.angularVelocity += (mov.rotation > 0) ? + mov.speed/100 : - mov.speed/100;
+        this.boat.body.angularVelocity += (mov.rotation > 0) ? + mov.speed/200 : - mov.speed/200;
         console.log("VELOCITY", this.velocity, "ANGULAR_VELOCITY", this.boat.body.angularVelocity);
     }
 

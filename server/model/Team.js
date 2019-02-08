@@ -3,6 +3,7 @@ class Team {
     constructor(color) {
         this.color = color;
         this.players = [];
+        this.hasFinished = false;
     }
 
     getColor(){

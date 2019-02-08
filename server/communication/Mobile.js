@@ -21,7 +21,9 @@ class Mobile {
                 this.mobileClient.emit("TEAM_READY");
                 team.getPlayers()[0].getSocket().emit("TEAM_READY");
                 this.race.getDisplay().getSocket().emit("ADD_TEAM", {color: team.getColor()});
-                this.race.getStatsSocket().emit("ADD_TEAM", {color: team.getColor()});
+                if(this.race.getStatsSocket()){
+                    this.race.getStatsSocket().emit("ADD_TEAM", {color: team.getColor()});
+                }
                 clearInterval(this.race.getTimerId());
                 this.race.launchStartChrono();
             }
@@ -33,7 +35,9 @@ class Mobile {
 
     onMove(data) {
         this.race.getDisplay().getSocket().emit("MOVE",data);
-        this.race.getStatsSocket().emit("MOVE", data);
+        if(this.race.getStatsSocket()){
+            this.race.getStatsSocket().emit("MOVE", data);
+        }
     }
 
 }
