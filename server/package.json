@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/pierrebonny/ProjetIHMVendredi#readme",
   "dependencies": {
+    "local-ipv4-address": "0.0.2",
     "socket.io": "^2.2.0"
   }
 }

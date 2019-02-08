@@ -75,6 +75,7 @@ export class SelectPage {
             }
         });
         this.socket.on("FINISH", (data) => {
+            console.log(data)
             if (this.teamFinished == 0){
                 this.teamFinished = 1;
                 if (data.color == this.teamOne){
