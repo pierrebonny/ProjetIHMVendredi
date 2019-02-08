@@ -159,7 +159,7 @@ export class Player12Page {
                     pointHoverRadius: 5,
                     fill: false,
                     tension: 0,
-                    showLine: true
+                    showLine: false
                 }]
             },
             options: {

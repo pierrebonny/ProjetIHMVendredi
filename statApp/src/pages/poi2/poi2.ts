@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavParams, ViewController} from 'ionic-angular';
+import { Component } from '@angular/core';
+import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 
 /**
- * Generated class for the PoiPage page.
+ * Generated class for the Poi2Page page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -10,10 +10,10 @@ import {IonicPage, NavParams, ViewController} from 'ionic-angular';
 
 @IonicPage()
 @Component({
-    selector: 'page-poi',
-    templateUrl: 'poi.html',
+  selector: 'page-poi2',
+  templateUrl: 'poi2.html',
 })
-export class PoiPage {
+export class Poi2Page {
     speed: any = this.navParams.get('speed');
     position: any = this.navParams.get('position');
     positionother: any = this.navParams.get('positionOther');
@@ -27,8 +27,13 @@ export class PoiPage {
 
     ionViewDidLoad() {
         console.log("data entrées : ");
+        console.log("position");
         console.log(this.position);
+        console.log(this.position[0].x);
+        console.log("positionOther");
         console.log(this.positionother);
+        console.log(this.positionother[0].x);
+        console.log("speed");
         console.log(this.speed);
         let min = (this.position.length <= this.positionother.length ? this.position.length : this.positionother.length);
         let first = false;
@@ -53,7 +58,7 @@ export class PoiPage {
         }
         let collision = false;
         for (let i=10; i< this.position.length; i++){
-            if (this.position[i].y <= 469 || this.position[i].y >=700){
+            if (this.position[i].y <= 68 || this.position[i].y >=300){
                 if (!collision){
                     collision = true;
                     this.tabOfTimes.push(i/10+" sec");
@@ -73,3 +78,5 @@ export class PoiPage {
 
 
 }
+
+
