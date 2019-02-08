@@ -8,7 +8,9 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.Display;
 import android.view.Surface;
 import android.view.View;
@@ -30,6 +32,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     private int startLeftOrRight = 0; //1 if left 2 if right
     private View gameView;
     final MediaPlayer mp = MediaPlayer.create(KayakRacerApp.getContext(), R.raw.rame);
+    //Vibrator v = (Vibrator) getSystemService(KayakRacerApp.getContext().VIBRATOR_SERVICE);
 
     private SensorManager mSensorManager;
     private Sensor mSensorAccelerometer;
@@ -93,11 +96,24 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     private void sendMove(float speed, float roll) {
         JSONObject object = new JSONObject();
+        int rotation;
+        if (startLeftOrRight == 1) {
+            if (speed < 0)
+                rotation = -1;
+            else
+                rotation = 1;
+        } else {
+            if (speed < 0)
+                rotation = 1;
+            else
+                rotation = -1;
+        }
         try {
-            object.put("rotation", (startLeftOrRight == 1) ? 1 : -1);
+            object.put("rotation", rotation);
             object.put("speed", speed);
             object.put("color", Constants.color);
             object.put("id", Constants.id);
+            object.put("performance", (Math.abs(speed / 150) * 100) > 100 ? 100 : Math.abs(speed / 150) * 100);
             object.put("pitch", (startLeftOrRight == 1) ? -roll : roll + 90);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -163,6 +179,7 @@ public class GameActivity extends Activity implements SensorEventListener {
             int isLeftOrRightValue = isLeftOrRight(pitch);
             if (!isPaddling && isLeftOrRightValue != 0) {
                 mp.start();
+                //v.vibrate(400);
                 startAzimuth = azimuth;
                 startRoll = roll;
                 startLeftOrRight = isLeftOrRightValue;
@@ -179,7 +196,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                     gameView.setBackgroundColor(Color.parseColor("#FFA500"));
                     hint.setText("Astuce : Un mouvement plus ample vous fera gagner en vitesse!");
                 } else {
-                    gameView.setBackgroundColor(Color.parseColor("#1aa318"));
+                    gameView.setBackgroundColor(Color.parseColor("#1AA318"));
                     hint.setText("JOLI COUP!!!");
                 }
             }
@@ -219,18 +236,18 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     public float azimuthCoefficient(int leftOrRight, float startAzimuth, float azimuth) {
         float coeff = 0;
-        boolean isAnnoying = Math.abs(azimuth-startAzimuth)>180;
+        boolean isAnnoying = Math.abs(azimuth - startAzimuth) > 180;
         if (leftOrRight == 1) {
             if (isAnnoying)
-                coeff = (startAzimuth + (azimuth-360))/120;
+                coeff = (startAzimuth + (azimuth - 360)) / 160;
             else
-                coeff = (startAzimuth-azimuth)/120;
+                coeff = (startAzimuth - azimuth) / 160;
         }
         if (leftOrRight == 2) {
             if (isAnnoying)
-                coeff = (azimuth + (startAzimuth-360))/120;
+                coeff = (azimuth + (startAzimuth - 360)) / 160;
             else
-                coeff = (azimuth - startAzimuth)/120;
+                coeff = (azimuth - startAzimuth) / 160;
         }
         return coeff;
     }
