@@ -25,8 +25,6 @@ public class MainFragment extends Fragment {
 
     private static final int REQUEST_LOGIN = 0;
 
-    private RecyclerView mMessagesView;
-    private String mUsername;
     private Socket mSocket;
 
     private Boolean isConnected = true;
@@ -41,8 +39,8 @@ public class MainFragment extends Fragment {
 
         KayakRacerApp app = (KayakRacerApp) getActivity().getApplication();
         mSocket = app.getSocket();
-        mSocket.on(Socket.EVENT_CONNECT,onConnect);
-        mSocket.on(Socket.EVENT_DISCONNECT,onDisconnect);
+        mSocket.on(Socket.EVENT_CONNECT, onConnect);
+        mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.on("CONNECTION_STATE", onConnectStart);
@@ -73,9 +71,9 @@ public class MainFragment extends Fragment {
         mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.on("CONNECTION_STATE", onConnectStart);
         mSocket.on("PLAYER_ADDED", onPlayerAdded);
-        mSocket.on("TEAM_READY", onNewMessage);
-        mSocket.on("START", onNewMessage);
-        mSocket.on("FINISH", onNewMessage);
+        mSocket.on("TEAM_READY", onTeamReady);
+        mSocket.on("START", onGameStart);
+        mSocket.on("FINISH", onFinish);
     }
 
     @Override
@@ -95,17 +93,11 @@ public class MainFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_leave) {
             leave();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -137,9 +129,7 @@ public class MainFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(!isConnected) {
-                        if(null!=mUsername)
-                            mSocket.emit("add user", mUsername);
+                    if (!isConnected) {
                         Toast.makeText(getActivity().getApplicationContext(),
                                 R.string.connect, Toast.LENGTH_LONG).show();
                         isConnected = true;
@@ -227,11 +217,11 @@ public class MainFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("FINISH", "FINISH");
+                    Log.d("START", "START");
                 }
             });
-            Constants.finish=false;
-            Constants.start=true;
+            Constants.finish = false;
+            Constants.start = true;
         }
     };
 
@@ -241,11 +231,11 @@ public class MainFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("START", "START");
+                    Log.d("FINISH", "FINISH");
                 }
             });
-            Constants.start=false;
-            Constants.finish=true;
+            Constants.start = false;
+            Constants.finish = true;
         }
     };
 

@@ -2,30 +2,34 @@ package com.androidapp.androidchat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Surface;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
-
 import io.socket.client.Socket;
 
 public class GameActivity extends Activity implements SensorEventListener {
 
     private Socket mSocket;
-    long startTime;
-    int leftOrRight = 0; //1 if left 2 if right
-    boolean checkTime = true;
+    boolean isPaddling = false;
+    boolean firstHint = true;
     private float startAzimuth = 0f;
+    private float startRoll = 0f;
+    private int startLeftOrRight = 0; //1 if left 2 if right
+    private View gameView;
+    final MediaPlayer mp = MediaPlayer.create(KayakRacerApp.getContext(), R.raw.rame);
 
     private SensorManager mSensorManager;
     private Sensor mSensorAccelerometer;
@@ -33,10 +37,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     private float[] mAccelerometerData = new float[3];
     private float[] mMagnetometerData = new float[3];
 
-    private TextView mTextSensorAzimuth;
-    private TextView mTextSensorPitch;
-    private TextView mTextSensorRoll;
-    private TextView timer;
+    private TextView hint;
     private Display mDisplay;
 
 
@@ -45,14 +46,13 @@ public class GameActivity extends Activity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         KayakRacerApp app = (KayakRacerApp) getApplication();
-
-        timer = (TextView) findViewById(R.id.timer);
+        gameView = findViewById(R.id.gameView);
+        hint = (TextView) findViewById(R.id.hint);
+        hint.setRotation(90);
+        hint.setTextColor(Color.parseColor("#FFFFFF"));
         mSocket = app.getSocket();
-        timer.setText("waiting");
+        hint.setText("PREPAREZ VOUS...");
 
-        mTextSensorAzimuth = (TextView) findViewById(R.id.value_azimuth);
-        mTextSensorPitch = (TextView) findViewById(R.id.value_pitch);
-        mTextSensorRoll = (TextView) findViewById(R.id.value_roll);
         mSensorManager = (SensorManager) getSystemService(
                 Context.SENSOR_SERVICE);
         mSensorAccelerometer = mSensorManager.getDefaultSensor(
@@ -94,11 +94,11 @@ public class GameActivity extends Activity implements SensorEventListener {
     private void sendMove(float speed, float roll) {
         JSONObject object = new JSONObject();
         try {
-            object.put("rotation", (leftOrRight == 1) ? 1 : -1);
+            object.put("rotation", (startLeftOrRight == 1) ? 1 : -1);
             object.put("speed", speed);
             object.put("color", Constants.color);
             object.put("id", Constants.id);
-            object.put("pitch", (leftOrRight == 1) ? -roll : roll+90);
+            object.put("pitch", (startLeftOrRight == 1) ? -roll : roll + 90);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -149,39 +149,38 @@ public class GameActivity extends Activity implements SensorEventListener {
                     orientationValues);
         }
 
-        float azimuth = orientationValues[0] * 57.2958f;
+        float azimuth = orientationValues[0] * 57.2958f + 180;
         float pitch = orientationValues[1] * 57.2958f;
         float roll = orientationValues[2] * 57.2958f;
 
-        mTextSensorAzimuth.setText(getResources().getString(
-                R.string.value_format, azimuth));
-        mTextSensorPitch.setText(getResources().getString(
-                R.string.value_format, pitch));
-        mTextSensorRoll.setText(getResources().getString(
-                R.string.value_format, roll));
-
-        if (Constants.finish) {
-            timer.setText("FINISH");
+        if (Constants.start && firstHint) {
+            hint.setText("PAGAYEZ!");
+            firstHint = false;
         }
-        if (Constants.start) {
-            timer.setText("START");
+        if (Constants.finish) {
+            hint.setText("PARTIE TERMINEE !");
+        } else if (Constants.start) {
             int isLeftOrRightValue = isLeftOrRight(pitch);
-            if (checkTime && isLeftOrRightValue != 0) {
+            if (!isPaddling && isLeftOrRightValue != 0) {
+                mp.start();
                 startAzimuth = azimuth;
-                startTime = System.currentTimeMillis();
-                checkTime = false;
-                leftOrRight = isLeftOrRightValue;
-            } else if (!checkTime && isLeftOrRightValue == 0) {
-                checkTime = true;
-                timer.setText("waiting!");
-                leftOrRight = 0;
-            } else if (!checkTime) {
-                timer.setText("" + (300 - ((new Date()).getTime() - startTime)));
-                if (((new Date()).getTime() - startTime) > 300) {
-                    sendMove(150 * azimuthCoefficient(isLeftOrRightValue, startAzimuth, azimuth) * rollCoefficient(isLeftOrRightValue, roll), roll);
-                    timer.setText("waiting!");
-                    checkTime = true;
-                    leftOrRight = 0;
+                startRoll = roll;
+                startLeftOrRight = isLeftOrRightValue;
+                isPaddling = true;
+            } else if (isPaddling && isLeftOrRightValue == 0) {
+                isPaddling = false;
+                float rollCoeff = rollCoefficient(startLeftOrRight, startRoll);
+                float azCoeff = azimuthCoefficient(startLeftOrRight, startAzimuth, azimuth);
+                sendMove(150 * rollCoeff * azCoeff, startRoll);
+                if (rollCoeff < 0.7) {
+                    gameView.setBackgroundColor(Color.parseColor("#FFA500"));
+                    hint.setText("Astuce : La pale doit être perpendiculaire au sens de mouvement!");
+                } else if (azCoeff < 0.4) {
+                    gameView.setBackgroundColor(Color.parseColor("#FFA500"));
+                    hint.setText("Astuce : Un mouvement plus ample vous fera gagner en vitesse!");
+                } else {
+                    gameView.setBackgroundColor(Color.parseColor("#1aa318"));
+                    hint.setText("JOLI COUP!!!");
                 }
             }
         }
@@ -195,9 +194,9 @@ public class GameActivity extends Activity implements SensorEventListener {
      * 0 otherwise
      */
     public int isLeftOrRight(float pitch) {
-        if (pitch < - 50)
+        if (pitch < -40 && pitch > -85)
             return 2;
-        else if (pitch > 50) {
+        else if (pitch > 40 && pitch < 85) {
             return 1;
         } else {
             return 0;
@@ -206,25 +205,32 @@ public class GameActivity extends Activity implements SensorEventListener {
 
 
     public float rollCoefficient(int leftOrRight, float roll) {
-        float coeff = 0;
-        float rollAbs = Math.abs(roll);
+        float coeff;
         if (leftOrRight == 2) {
-            rollAbs += 90;
+            roll += 90;
         }
-        if (rollAbs<=90)
-            coeff=rollAbs/90;
+        float rollAbs = Math.abs(roll);
+        if (rollAbs <= 90)
+            coeff = rollAbs / 90;
         else
-            coeff=90-(rollAbs%90);
+            coeff = (90 - (rollAbs % 90)) / 90;
         return coeff;
     }
 
     public float azimuthCoefficient(int leftOrRight, float startAzimuth, float azimuth) {
         float coeff = 0;
+        boolean isAnnoying = Math.abs(azimuth-startAzimuth)>180;
         if (leftOrRight == 1) {
-            coeff = -(azimuth - startAzimuth) / 1.2f;
+            if (isAnnoying)
+                coeff = (startAzimuth + (azimuth-360))/120;
+            else
+                coeff = (startAzimuth-azimuth)/120;
         }
         if (leftOrRight == 2) {
-            coeff = (azimuth - startAzimuth) / 1.2f;
+            if (isAnnoying)
+                coeff = (azimuth + (startAzimuth-360))/120;
+            else
+                coeff = (azimuth - startAzimuth)/120;
         }
         return coeff;
     }

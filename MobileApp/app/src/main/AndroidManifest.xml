@@ -24,10 +24,11 @@
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat" >
         </activity>
-        <activity android:name=".StartActivity"
+        <activity android:name="com.androidapp.androidchat.StartActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat" />
-        <activity android:name=".GameActivity"
+        <activity android:name="com.androidapp.androidchat.GameActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat" />
     </application>
 

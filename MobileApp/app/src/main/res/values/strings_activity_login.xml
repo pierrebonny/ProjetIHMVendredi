@@ -13,7 +13,7 @@
     <string name="join_orange8">Pagaie 2</string>
     <string name="join_text">Sélectionnez le numéro et la couleur de pagaie à associer au téléphone</string>
     <string name="start">Commencer</string>
-    <string name="waiting_players">En attente d\'autres joueurs</string>
+    <string name="waiting_players">En attente du deuxième joueur</string>
     <string name="action_sign_in_short">Join</string>
 
     <string name="error_field_required">This field is required</string>
