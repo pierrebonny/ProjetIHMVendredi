@@ -43,6 +43,12 @@ export class SelectPage {
             }
         });
         this.socket.on("ADD_TEAM", (data) => {
+            if (this.teamOne === '') {
+                this.teamOne = data.color;
+            } else {
+                this.teamTwo = data.color;
+            }
+            console.log(data.color);
         });
         this.socket.on("MOVE", (data) => {
             switch (data.id) {
@@ -69,6 +75,7 @@ export class SelectPage {
             }
         });
         this.socket.on("FINISH", (data) => {
+            console.log(data)
             if (this.teamFinished == 0){
                 this.teamFinished = 1;
                 if (data.color == this.teamOne){
