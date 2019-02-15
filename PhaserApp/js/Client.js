@@ -10,7 +10,6 @@ class Client {
             method: 'GET'
         }).then((response) => response.json())
         .then((responseJson)=> {
-            console.log(responseJson);
             this.connectToServer(responseJson.ipAddress + ":8088");
         });
     }
