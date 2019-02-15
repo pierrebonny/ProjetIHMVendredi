@@ -8,6 +8,7 @@ class GameScene {
         this.finishGame = finishGame;
         this.reactFromMovement = this.reactFromMovement.bind(this);
         this.boats = {};
+        this.bars = [];
     }
 
     preload() {
@@ -80,7 +81,7 @@ class GameScene {
         let color;
         for (let i = 1; i <= this.race.nbPlayers(); i++) {
             color = this.race.getColors()[i-1];
-            boat = new Boat(100, 400*i, color, this.finishDetected.bind(this));
+            boat = new Boat(80, 400*i, color, this.finishDetected.bind(this));
             boat.getBoat().body.setCollisionGroup(boatsCollisionGroup);
             boat.getBoat().body.collides([boatsCollisionGroup, separatorsCollisionGroup]);
             this.boats[color] = boat;
@@ -94,23 +95,49 @@ class GameScene {
             this.chronoTexts[color] = game.add.text(90 + i*300, 32, '0:00', { fontSize: '32px', fill: '#000' });
         }
 
+        // Bars
+        let barConfig;
+        let x;
+        let y;
+        for (let i = 0; i < this.race.nbPlayers(); i++) {
+            color = this.race.getColors()[i];
+            x = 1200 + 300*i;
+            y = 50;
+
+            barConfig = { x: x, y: y, width: 200, height: 30, bg: {color: '#333333'}, bar: {color: color} };
+            this.bars[2*i+1] = new HealthBar(game, barConfig);
+            this.bars[2*i+1].setPercent(0);
+            game.add.text(x-15, y-15, "J1", {fontSize:'24px', fill:'#ffffff'});
+
+            y += 50;
+
+            barConfig = { x: x, y: y, width: 200, height: 30, bg: {color: '#333333'}, bar: {color: color} };
+            this.bars[2+2*i] = new HealthBar(game, barConfig);
+            this.bars[2+2*i].setPercent(0);
+            game.add.text(x-15, y-15, "J2", {fontSize:'24px', fill:'#ffffff'});
+        }
+
         // Listeners
         this.client.listenMovement(this.reactFromMovement);
         this.cursors = game.input.keyboard.createCursorKeys();
 
         // Start race
         this.imgState = 5;
-        this.img = game.add.image(1920/2-212, 1080/2-212, "3");
+        this.img = game.add.image(game.world.centerX, game.world.centerY, "3");
+        this.img.anchor.set(0.5, 0.5);
         setTimeout(() => game.add.audio("mario").play(), 500);
         game.time.events.repeat(Phaser.Timer.SECOND * 0.9, 5, this.startRace, this);
     }
 
     reactFromMovement(mov) {
-        this.boats[mov.color].reactFromMovement(mov)
+        if (this.race.getStartTime() !== 0 && this.race.getStartTime() !== undefined) {
+            this.boats[mov.color].reactFromMovement(mov);
+            this.bars[mov.id].setPercent(mov.performance);
+        }
     }
 
     update() {
-        if (this.race.getStartTime() !== 0) {
+        if (this.race.getStartTime() !== 0 && this.race.getStartTime() !== undefined) {
             for (let color of this.race.getColors()) {
                 this.boats[color].update(this.cursors);
                 if (!this.boats[color].hasFinished()) {

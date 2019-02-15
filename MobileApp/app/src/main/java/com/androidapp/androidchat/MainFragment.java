@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,6 +13,9 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -110,6 +112,16 @@ public class MainFragment extends Fragment {
     private void startStarting() {
         Intent intent = new Intent(getActivity(), StartActivity.class);
         startActivityForResult(intent, 0);
+    }
+
+    private void startFinsih() {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getActivity(), StartActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        }, 17000);
     }
 
     private void startGame() {
@@ -236,6 +248,7 @@ public class MainFragment extends Fragment {
             });
             Constants.start = false;
             Constants.finish = true;
+            startFinsih();
         }
     };
 
@@ -249,26 +262,6 @@ public class MainFragment extends Fragment {
                 }
             });
             startGame();
-        }
-    };
-
-    private Emitter.Listener onNewMessage = new Emitter.Listener() {
-        @Override
-        public void call(final Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    JSONObject data = (JSONObject) args[0];
-                    String status;
-                    try {
-                        status = data.getString("status");
-                    } catch (JSONException e) {
-                        Log.e(TAG, e.getMessage());
-                        return;
-                    }
-                    Log.d("PLAYER_ADDED", status);
-                }
-            });
         }
     };
 }
