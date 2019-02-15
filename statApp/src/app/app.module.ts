@@ -18,7 +18,7 @@ import {PoiPage} from "../pages/poi/poi";
 import {Poi2Page} from "../pages/poi2/poi2";
 
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-const config: SocketIoConfig = { url: 'http://10.212.111.96:8080/', options: {} };
+const config: SocketIoConfig = { url: 'http://10.212.111.96:8088/', options: {} };
 //10.212.111.96
 @NgModule({
     declarations: [

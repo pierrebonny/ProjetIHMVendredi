@@ -192,7 +192,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                 if (rollCoeff < 0.7) {
                     gameView.setBackgroundColor(Color.parseColor("#FFA500"));
                     hint.setText("Astuce : La pale doit être perpendiculaire au sens de mouvement!");
-                } else if (azCoeff < 0.4) {
+                } else if (Math.abs(azCoeff) < 0.4) {
                     gameView.setBackgroundColor(Color.parseColor("#FFA500"));
                     hint.setText("Astuce : Un mouvement plus ample vous fera gagner en vitesse!");
                 } else {
@@ -231,7 +231,7 @@ public class GameActivity extends Activity implements SensorEventListener {
             coeff = rollAbs / 90;
         else
             coeff = (90 - (rollAbs % 90)) / 90;
-        return coeff;
+        return (coeff/2)+0.5f;
     }
 
     public float azimuthCoefficient(int leftOrRight, float startAzimuth, float azimuth) {
@@ -249,7 +249,12 @@ public class GameActivity extends Activity implements SensorEventListener {
             else
                 coeff = (azimuth - startAzimuth) / 160;
         }
-        return coeff;
+        //return coeff;
+
+        if (coeff>0)
+            return 1;
+        else
+            return -1;
     }
 
 
