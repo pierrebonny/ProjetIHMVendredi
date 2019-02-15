@@ -14,7 +14,7 @@ class Race {
         var localIpV4Address = require("local-ipv4-address");
 
         localIpV4Address().then(function(ipAddress){
-            console.log("Le serveur tourne sur l'adresse IP " + ipAddress);
+            console.log("server ip adress: " + ipAddress);
         });
         this.server = this.initiateServer();
         this.stats = new Stats();

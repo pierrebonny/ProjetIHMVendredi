@@ -6,7 +6,13 @@ const ADDRESS = "localhost:8080";
  */
 class Client {
     constructor() {
-        this.connectToServer(ADDRESS);
+        fetch("http://localhost:8081/ipAdress", {
+            method: 'GET'
+        }).then((response) => response.json())
+        .then((responseJson)=> {
+            console.log(responseJson);
+            this.connectToServer(responseJson.ipAddress + ":8088");
+        });
     }
 
     connectToServer(address) {

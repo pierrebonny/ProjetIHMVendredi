@@ -1,5 +1,5 @@
 let game = new Phaser.Game(1920, 1080, Phaser.AUTO, document.getElementById('game'));
-let client = new Client();
+let client = new Client(game);
 let race;
 
 function prepareGame() {
