@@ -59,9 +59,9 @@ class Boat {
         if (this.boat.body === null) {
             game.physics.p2.enable(this.boat);
         }
-        this.velocity += mov.speed*3;
-        this.boat.body.angularVelocity += mov.rotation;
-        this.boat.body.angularVelocity += (mov.rotation > 0) ? + mov.speed/200 : - mov.speed/200;
+        this.velocity += mov.speed;
+        this.boat.body.angularVelocity += mov.rotation/6;
+        this.boat.body.angularVelocity += (mov.rotation > 0) ? + mov.speed/300 : - mov.speed/300;
         console.log("VELOCITY", this.velocity, "ANGULAR_VELOCITY", this.boat.body.angularVelocity);
     }
 
