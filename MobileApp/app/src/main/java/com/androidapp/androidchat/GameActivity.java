@@ -20,6 +20,8 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import io.socket.client.Socket;
 
 public class GameActivity extends Activity implements SensorEventListener {
@@ -28,11 +30,12 @@ public class GameActivity extends Activity implements SensorEventListener {
     boolean isPaddling = false;
     boolean firstHint = true;
     private float startAzimuth = 0f;
+    ArrayList azimuthValues = new ArrayList();
     private float startRoll = 0f;
     private int startLeftOrRight = 0; //1 if left 2 if right
     private View gameView;
     final MediaPlayer mp = MediaPlayer.create(KayakRacerApp.getContext(), R.raw.rame);
-    //Vibrator v = (Vibrator) getSystemService(KayakRacerApp.getContext().VIBRATOR_SERVICE);
+    Vibrator v;
 
     private SensorManager mSensorManager;
     private Sensor mSensorAccelerometer;
@@ -48,6 +51,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        v = (Vibrator) getSystemService(KayakRacerApp.getContext().VIBRATOR_SERVICE);
         KayakRacerApp app = (KayakRacerApp) getApplication();
         gameView = findViewById(R.id.gameView);
         hint = (TextView) findViewById(R.id.hint);
@@ -177,24 +181,26 @@ public class GameActivity extends Activity implements SensorEventListener {
             hint.setText("PARTIE TERMINEE !");
         } else if (Constants.start) {
             int isLeftOrRightValue = isLeftOrRight(pitch);
+            if (isPaddling) {
+                azimuthValues.add(azimuth);
+            }
             if (!isPaddling && isLeftOrRightValue != 0) {
                 mp.start();
-                //v.vibrate(400);
+                v.vibrate(300);
+                azimuthValues.add(azimuth);
                 startAzimuth = azimuth;
                 startRoll = roll;
                 startLeftOrRight = isLeftOrRightValue;
                 isPaddling = true;
             } else if (isPaddling && isLeftOrRightValue == 0) {
                 isPaddling = false;
+                azimuthValues.add(azimuth);
                 float rollCoeff = rollCoefficient(startLeftOrRight, startRoll);
                 float azCoeff = azimuthCoefficient(startLeftOrRight, startAzimuth, azimuth);
                 sendMove(150 * rollCoeff * azCoeff, startRoll);
                 if (rollCoeff < 0.7) {
                     gameView.setBackgroundColor(Color.parseColor("#FFA500"));
                     hint.setText("Astuce : La pale doit être perpendiculaire au sens de mouvement!");
-                } else if (Math.abs(azCoeff) < 0.4) {
-                    gameView.setBackgroundColor(Color.parseColor("#FFA500"));
-                    hint.setText("Astuce : Un mouvement plus ample vous fera gagner en vitesse!");
                 } else {
                     gameView.setBackgroundColor(Color.parseColor("#1AA318"));
                     hint.setText("JOLI COUP!!!");
@@ -210,7 +216,7 @@ public class GameActivity extends Activity implements SensorEventListener {
      * 2 when the paddle is in contact with water at the right
      * 0 otherwise
      */
-    public int isLeftOrRight(float pitch) {
+    private int isLeftOrRight(float pitch) {
         if (pitch < -40 && pitch > -85)
             return 2;
         else if (pitch > 40 && pitch < 85) {
@@ -221,7 +227,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
 
 
-    public float rollCoefficient(int leftOrRight, float roll) {
+    private float rollCoefficient(int leftOrRight, float roll) {
         float coeff;
         if (leftOrRight == 2) {
             roll += 90;
@@ -231,10 +237,10 @@ public class GameActivity extends Activity implements SensorEventListener {
             coeff = rollAbs / 90;
         else
             coeff = (90 - (rollAbs % 90)) / 90;
-        return (coeff/2)+0.5f;
+        return (coeff / 1.5f) + 0.3f;
     }
 
-    public float azimuthCoefficient(int leftOrRight, float startAzimuth, float azimuth) {
+    private float azimuthCoefficient(int leftOrRight, float startAzimuth, float azimuth) {
         float coeff = 0;
         boolean isAnnoying = Math.abs(azimuth - startAzimuth) > 180;
         if (leftOrRight == 1) {
@@ -250,11 +256,40 @@ public class GameActivity extends Activity implements SensorEventListener {
                 coeff = (azimuth - startAzimuth) / 160;
         }
         //return coeff;
+        int rAzim = getRealAzim();
 
-        if (coeff>0)
-            return 1;
+        if (coeff > 0)
+            return rAzim;
         else
-            return -1;
+            return -1*rAzim;
+    }
+
+
+    private int getRealAzim() {
+        if (azimuthValues.size()>10) {
+            if ((float) azimuthValues.get(azimuthValues.size() - 1) < (float) azimuthValues.get(0)) {
+                if (((float) azimuthValues.get(azimuthValues.size() - 2)) < (float) azimuthValues.get(1)) {
+                    return 1;
+                } else if (((float) azimuthValues.get(azimuthValues.size() - 2)) > (float) azimuthValues.get(1)) {
+                    if (((float) azimuthValues.get(azimuthValues.size() - 3)) < (float) azimuthValues.get(2)) {
+                        return 1;
+                    } else if (((float) azimuthValues.get(azimuthValues.size() - 3)) > (float) azimuthValues.get(2)) {
+                        return -1;
+                    }
+                }
+            } else {
+                if (((float) azimuthValues.get(azimuthValues.size() - 2)) > (float) azimuthValues.get(1)) {
+                    return 1;
+                } else if (((float) azimuthValues.get(azimuthValues.size() - 2)) < (float) azimuthValues.get(1)) {
+                    if (((float) azimuthValues.get(azimuthValues.size() - 3)) > (float) azimuthValues.get(2)) {
+                        return 1;
+                    } else if (((float) azimuthValues.get(azimuthValues.size() - 3)) < (float) azimuthValues.get(2)) {
+                        return -1;
+                    }
+                }
+            }
+        }
+        return 1;
     }
 
 

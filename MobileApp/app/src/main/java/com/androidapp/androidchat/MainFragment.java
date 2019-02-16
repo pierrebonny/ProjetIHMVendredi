@@ -120,6 +120,8 @@ public class MainFragment extends Fragment {
             public void run() {
                 Intent intent = new Intent(getActivity(), StartActivity.class);
                 startActivityForResult(intent, 0);
+                Constants.finish = false;
+                Constants.start = true;
             }
         }, 17000);
     }
