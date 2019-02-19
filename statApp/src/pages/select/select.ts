@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {HistoryPage} from "../history/history";
-import {Socket} from "ng-socket-io";
+import {Socket, SocketIoConfig} from "ng-socket-io";
 import {Player11Page} from "../players/player11/player11";
 import {Player21Page} from "../players/player21/player21";
+
 
 /**
  * Generated class for the SelectPage page.
@@ -17,7 +18,7 @@ import {Player21Page} from "../players/player21/player21";
     selector: 'page-select',
     templateUrl: 'select.html',
 })
-export class SelectPage {
+export class SelectPage{
 
     isenabled: boolean = false;
     teamOne = ''; //color
@@ -50,6 +51,7 @@ export class SelectPage {
             }
             console.log(data.color);
         });
+
         this.socket.on("MOVE", (data) => {
             switch (data.id) {
                 case 1: {
@@ -75,7 +77,7 @@ export class SelectPage {
             }
         });
         this.socket.on("FINISH", (data) => {
-            console.log(data)
+            console.log(data);
             if (this.teamFinished == 0){
                 this.teamFinished = 1;
                 if (data.color == this.teamOne){
@@ -107,9 +109,12 @@ export class SelectPage {
     }
 
     ionViewDidLoad() {
+        const murl = this.navParams.get('url');
+        console.log("l'url dynamique : "+murl);
+        const config: SocketIoConfig = { url: murl, options: {} };
+        this.socket =new Socket(config);
         this.socket.connect();
         this.socket.emit("CONNECTION", {device: "Stats"});
-
     }
 
     enable() {

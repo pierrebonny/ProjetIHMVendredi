@@ -16,10 +16,10 @@ import {Player21Page} from "../pages/players/player21/player21";
 import {Player22Page} from "../pages/players/player22/player22";
 import {PoiPage} from "../pages/poi/poi";
 import {Poi2Page} from "../pages/poi2/poi2";
+import {HomeconfigPage} from "../pages/homeconfig/homeconfig";
 
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-const config: SocketIoConfig = { url: 'http://10.212.111.96:8088/', options: {} };
-//10.212.111.96
+const config: SocketIoConfig = { url: 'http://10.212.111.96:8080/', options: {} };
 @NgModule({
     declarations: [
         MyApp,
@@ -31,7 +31,8 @@ const config: SocketIoConfig = { url: 'http://10.212.111.96:8088/', options: {} 
         Player12Page,
         Player21Page,
         PoiPage,
-        Player22Page
+        Player22Page,
+        HomeconfigPage
     ],
     imports: [
         BrowserModule,
@@ -50,7 +51,8 @@ const config: SocketIoConfig = { url: 'http://10.212.111.96:8088/', options: {} 
         Player12Page,
         Player21Page,
         Player22Page,
-        PoiPage
+        PoiPage,
+        HomeconfigPage
     ],
     providers: [
         StatusBar,
