@@ -44,7 +44,7 @@ export class PoiPage {
             }
         }
         for (let i = 0; i< this.speed.length; i++){
-            if (this.speed[i] > 100){
+            if (this.speed[i] > 142){
                 this.tabOfAction.push("Vous avez atteint un pic de vitesse de "+parseInt(this.speed[i])+" !");
                 this.tabOfPicto.push("../../assets/imgs/picto/accelerate.png");
                 this.tabOfTimes.push(i/10+" sec");
