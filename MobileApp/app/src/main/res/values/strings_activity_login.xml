@@ -2,7 +2,7 @@
     <string name="title_activity_login">Join</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_username">What\'s your nickname?</string>
+    <string name="prompt_username">Adresse IP</string>
     <string name="join_blue1">Pagaie 1</string>
     <string name="join_blue2">Pagaie 2</string>
     <string name="join_red3">Pagaie 1</string>
@@ -14,7 +14,7 @@
     <string name="join_text">Sélectionnez le numéro et la couleur de pagaie à associer au téléphone</string>
     <string name="start">Commencer</string>
     <string name="waiting_players">En attente du deuxième joueur</string>
-    <string name="action_sign_in_short">Join</string>
+    <string name="action_sign_in_short">Valider</string>
 
     <string name="error_field_required">This field is required</string>
 </resources>

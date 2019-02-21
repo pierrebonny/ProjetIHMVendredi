@@ -255,17 +255,15 @@ public class GameActivity extends Activity implements SensorEventListener {
             else
                 coeff = (azimuth - startAzimuth) / 160;
         }
-        //return coeff;
-        int rAzim = getRealAzim();
 
         if (coeff > 0)
-            return rAzim;
+            return 1;
         else
-            return -1*rAzim;
+            return -1;
     }
 
 
-    private int getRealAzim() {
+    /*private int getRealAzim() {
         if (azimuthValues.size()>10) {
             if ((float) azimuthValues.get(azimuthValues.size() - 1) < (float) azimuthValues.get(0)) {
                 if (((float) azimuthValues.get(azimuthValues.size() - 2)) < (float) azimuthValues.get(1)) {
@@ -290,7 +288,7 @@ public class GameActivity extends Activity implements SensorEventListener {
             }
         }
         return 1;
-    }
+    }*/
 
 
     @Override
