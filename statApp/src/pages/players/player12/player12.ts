@@ -179,8 +179,8 @@ export class Player12Page {
                     }],
                     yAxes: [{
                         ticks: {
-                            min: 455,
-                            max: 730,
+                            min: 0,
+                            max: 1000,
                             padding: 50
                         },
                         gridLines: {

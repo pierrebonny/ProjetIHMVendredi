@@ -38,20 +38,6 @@ export class Player11Page {
     }
 
     ionViewDidLoad() {
-        console.log("p1pitch : ");
-        console.log(this.p1Pitch);
-        console.log("p2pitch : ");
-        console.log(this.p2Pitch);
-        console.log("p12position : ");
-        console.log(this.p12Position);
-        console.log("p34Position");
-        console.log(this.p34Position);
-        for (let i=0; i<this.p12Position.length; i++){
-            this.p12Position[i].y=970-this.p12Position[i].y;
-        }
-        for (let i=0; i<this.p34Position.length; i++){
-            this.p12Position[i].y=970-this.p12Position[i].y;
-        }
         this.connect();
     }
 
@@ -193,8 +179,8 @@ export class Player11Page {
                     }],
                     yAxes: [{
                         ticks: {
-                            min: 455,
-                            max: 730,
+                            min: 0,
+                            max: 1000,
                             padding: 50
                         },
                         gridLines: {

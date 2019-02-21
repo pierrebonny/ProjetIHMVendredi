@@ -46,22 +46,6 @@ export class Player21Page {
     }
 
     ionViewDidLoad() {
-        console.log("p3Pitch : ");
-        console.log(this.p3Pitch);
-        console.log("p4Pitch : ");
-        console.log(this.p4Pitch);
-        for (let i=0; i<this.p34Position.length; i++){
-            this.p34Position[i].y=970-this.p34Position[i].y;
-        }
-        for (let i=0; i<this.p12Position.length; i++){
-            this.p12Position[i].y=970-this.p12Position[i].y;
-        }
-
-        console.log("positions 34 corrigées : ");
-        console.log(this.p34Position);
-        console.log("positions 21 corrigées : ");
-        console.log(this.p12Position);
-
         this.connect();
     }
 
@@ -192,8 +176,8 @@ export class Player21Page {
                     }],
                     yAxes: [{
                         ticks: {
-                            min: 30,
-                            max: 330,
+                            min: 0,
+                            max: 1000,
                             padding: 50
                         },
                         gridLines: {

@@ -180,7 +180,7 @@ export class Player22Page {
                     yAxes: [{
                         ticks: {
                             min: 0,
-                            max: 400,
+                            max: 1000,
                             padding: 50
                         },
                         gridLines: {
