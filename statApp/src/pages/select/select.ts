@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {HistoryPage} from "../history/history";
-import {Socket, SocketIoConfig} from "ng-socket-io";
+import {Socket} from "ng-socket-io";
 import {Player11Page} from "../players/player11/player11";
 import {Player21Page} from "../players/player21/player21";
 
@@ -18,11 +18,9 @@ import {Player21Page} from "../players/player21/player21";
     selector: 'page-select',
     templateUrl: 'select.html',
 })
-export class SelectPage{
+export class SelectPage {
 
     isenabled: boolean = false;
-    teamOne = ''; //color
-    teamTwo = ''; //color
     winner = ''; //color
     p1Pitch = [];
     p1Speed = [];
@@ -34,7 +32,7 @@ export class SelectPage{
     p4Speed = [];
     p12Position = [];
     p34Position = [];
-    teamFinished = 0;
+    allFinished = 0;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private socket: Socket) {
         this.socket.on("CONNECTION_STATE", (data) => {
@@ -44,15 +42,11 @@ export class SelectPage{
             }
         });
         this.socket.on("ADD_TEAM", (data) => {
-            if (this.teamOne === '') {
-                this.teamOne = data.color;
-            } else {
-                this.teamTwo = data.color;
-            }
             console.log(data.color);
         });
 
         this.socket.on("MOVE", (data) => {
+            console.log("on reçoit un move" + data.id);
             switch (data.id) {
                 case 1: {
                     this.p1Speed.push(data.speed);
@@ -77,42 +71,24 @@ export class SelectPage{
             }
         });
         this.socket.on("FINISH", (data) => {
-            console.log(data);
-            if (this.teamFinished == 0){
-                this.teamFinished = 1;
-                if (data.color == this.teamOne){
-                    for (let i = 0; i < data.positions.length; i++) {
-                        this.p12Position.push({x:data.positions[i].x, y: data.positions[i].y});
-                    }
-                }else if(data.color == this.teamTwo){
-                    for (let i = 0; i < data.positions.length; i++) {
-                        this.p34Position.push({x:data.positions[i].x, y: data.positions[i].y});
-                    }
-                }
-            }
-            if (this.teamFinished == 1){
-                if (data.color == this.teamOne){
-                    for (let i = 0; i < data.positions.length; i++) {
-                        this.p12Position.push({x:data.positions[i].x, y: data.positions[i].y});
-                    }
-                }else if(data.color == this.teamTwo){
-                    for (let i = 0; i < data.positions.length; i++) {
-                        this.p34Position.push({x:data.positions[i].x, y: data.positions[i].y});
-                    }
-                }
-                console.log("position12 : "+this.p12Position);
-                console.log("position34 :" +this.p34Position);
-
+            if (this.allFinished == 1){
                 this.enable();
             }
+            this.allFinished = 1;
+            if (data.color == "blue") {
+                for (let i = 0; i < data.positions.length; i++) {
+                    this.p12Position.push({x: data.positions[i].x, y: data.positions[i].y});
+                }
+            } else if (data.color == "red") {
+                for (let i = 0; i < data.positions.length; i++) {
+                    this.p34Position.push({x: data.positions[i].x, y: data.positions[i].y});
+                }
+            }
         });
+
     }
 
     ionViewDidLoad() {
-        const murl = this.navParams.get('url');
-        console.log("l'url dynamique : "+murl);
-        const config: SocketIoConfig = { url: murl, options: {} };
-        this.socket =new Socket(config);
         this.socket.connect();
         this.socket.emit("CONNECTION", {device: "Stats"});
     }
@@ -126,6 +102,8 @@ export class SelectPage{
     }
 
     goToTeam1() {
+        console.log("p12 : ");
+        console.log(this.p12Position);
         let data = {
             p1Pitch: this.p1Pitch,
             p1Speed: this.p1Speed,
@@ -138,6 +116,8 @@ export class SelectPage{
     }
 
     goToTeam2() {
+        console.log("p34 : ");
+        console.log(this.p34Position);
         let data = {
             p3Pitch: this.p3Pitch,
             p3Speed: this.p3Speed,

@@ -32,7 +32,7 @@ export class HomeconfigPage {
                 url: murl
             };
             console.log(data);
-            this.navCtrl.push(SelectPage, data);
+            this.navCtrl.push(SelectPage);
 
         }
 
