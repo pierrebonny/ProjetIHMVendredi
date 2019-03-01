@@ -1,3 +1,3 @@
-# install node and npm in this computer
-# run npm install in this folder
-# Launch with npm start
+* Install node and npm on your computer
+* Run npm install in this folder
+* Launch with npm start
